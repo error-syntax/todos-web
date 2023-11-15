@@ -1,7 +1,11 @@
+import { RefObject } from 'react';
+
 type ListItemProps = {
-  handleClick: VoidFunction;
+  handleClick?: VoidFunction;
+  handleSubmit?: React.KeyboardEventHandler<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement>;
   listName: string;
-  state?: 'neutral' | 'selected';
-}
+  state?: 'default' | 'selected' | 'editing';
+} & React.HTMLProps<HTMLLIElement>; 
 
 export type { ListItemProps };

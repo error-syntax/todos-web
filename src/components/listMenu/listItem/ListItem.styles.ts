@@ -28,7 +28,7 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(({ state, theme: 
     `
       background-color: ${listItem.hover.background};
       border: ${listItem.hover.border};
-      outline: ${listItem.hover.outline};
+      outline: 1px solid ${listItem.hover.outline};
 
       & p {
         color: ${listItem.hover.text};
@@ -47,7 +47,7 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(({ state, theme: 
   &:hover {
     background-color: ${listItem.hover.background};
     border: ${listItem.hover.border};
-    outline: ${listItem.hover.outline};
+    outline: 1px solid ${listItem.hover.outline};
 
     & p {
       color: ${listItem.hover.text};
@@ -57,7 +57,7 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(({ state, theme: 
   &:focus {
     background-color: ${listItem.focus.background};
     border: ${listItem.focus.border};
-    outline: ${listItem.focus.outline};
+    outline: 1px solid ${listItem.focus.outline};
 
     & p {
       color: ${listItem.focus.text};
