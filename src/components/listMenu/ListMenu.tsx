@@ -1,14 +1,21 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { useSignal } from '@preact/signals-react';
+import { useQuery } from '@tanstack/react-query';
 
-import { AddListButton, Wrapper } from './ListMenu.styles';
 import ListItem from './listItem';
-import { Spacer } from '../wrappers';
+import { Wrapper } from './ListMenu.styles';
+import { fetchUserLists } from '../../api/lists.api';
 import { listsSignal } from '../../signals/list.signals';
+import { userContext } from '../../signals/user.signals';
+import AddListItem from './addListItem';
 
 export default function ListMenu() {
-  const selectedList = useSignal<string | null>(null);
+  const selectedListSignal = useSignal<string | null>(null);
+  const { id: userId } = userContext.value;
+
+  useQuery({
+    queryKey: ['lists', `${userId}`],
+    queryFn: async () => fetchUserLists(userId),
+  });
 
   return (
     <Wrapper>
@@ -16,24 +23,21 @@ export default function ListMenu() {
         listsSignal.value.map((list) => {
           return (
             <ListItem
-              listName={list.name}
               handleClick={() => {
-                selectedList.value = list.id
+                if (selectedListSignal.value ===  list.id) {
+                  selectedListSignal.value = null;
+                } else {
+                  selectedListSignal.value = list.id;
+                }
               }}
-              state={selectedList.value === list.id ? 'selected' : 'neutral'}
+              key={list.id}
+              listName={list.name}
+              state={selectedListSignal.value === list.id ? 'selected' : 'default'}
             />
           )
         })
       }
-      <AddListButton onClick={(e) => {
-        alert('Handle Creating a list.')
-      }}>
-        <p>
-          <FontAwesomeIcon icon={faCirclePlus} />
-          <Spacer width={8} />
-          Create a New List
-        </p>
-      </AddListButton>
+      <AddListItem />
     </Wrapper>
   )
 }

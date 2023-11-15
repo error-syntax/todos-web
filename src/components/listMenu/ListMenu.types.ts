@@ -1,4 +1,4 @@
-import { List } from "../../types";
+import { List } from '../../types';
 
 type ListMenuProps = {
   lists: Array<List>;
