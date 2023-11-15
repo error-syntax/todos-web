@@ -1,4 +1,5 @@
 import { type Meta, type StoryObj } from '@storybook/react';
+
 import ListMenu from '../components/listMenu/ListMenu';
 
 const meta = {

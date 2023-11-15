@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { type ListItemProps } from './ListItem.types';
 
 export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(

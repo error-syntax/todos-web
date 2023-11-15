@@ -1,10 +1,11 @@
 import axios from 'axios';
+
 import { listsSignal } from '../signals/list.signals';
-import { type CreateListInput, type List } from '../types/list.types';
 import { type Nullable } from '../types';
+import { type CreateListInput, type List } from '../types/list.types';
 
 export const fetchUserLists = async (userId?: number | null) => {
-  if (!userId) throw new Error('Please provide a user Id');
+  if (userId == null) throw new Error('Please provide a user Id');
 
   const res = await axios.get(`http://localhost:3001/lists/${userId}`, {
     withCredentials: true,

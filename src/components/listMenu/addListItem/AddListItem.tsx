@@ -1,15 +1,15 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSignal } from '@preact/signals-react';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
+import { createList } from '../../../api';
+import { userContext } from '../../../signals/user.signals';
 import { Spacer } from '../../wrappers';
 import ListItem from '../listItem';
 import { type ListItemProps } from '../listItem/ListItem.types';
 import { AddListButton } from './AddListItem.styles';
-import { createList } from '../../../api';
-import { userContext } from '../../../signals/user.signals';
 
 export default function AddListItem() {
   const stateSignal = useSignal<ListItemProps['state']>('default');
@@ -41,7 +41,7 @@ export default function AddListItem() {
   };
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (inputRef.current != null) {
       inputRef.current.focus();
     }
   }, [stateSignal.value, inputRef.current]);

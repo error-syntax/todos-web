@@ -1,9 +1,9 @@
-import { RouterProvider } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider } from '@tanstack/react-router';
 import { ThemeProvider } from 'styled-components';
 
-import router from './Route';
 import { theme } from '../theme';
+import router from './Route';
 
 const queryClient = new QueryClient({
   defaultOptions: {

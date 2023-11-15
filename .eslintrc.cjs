@@ -27,8 +27,20 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "simple-import-sort"
     ],
+    "settings": {
+        "react": {
+            "version": "detect",
+        },
+    },
     "rules": {
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-throw-literal": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
     }
 }

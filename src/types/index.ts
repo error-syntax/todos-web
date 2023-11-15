@@ -9,17 +9,17 @@ import {
   type UpdateTaskInput,
 } from './task.types';
 import {
+  type CreateUserInput,
   type User,
   type UserContext,
   type UserLogin,
-  type CreateUserInput,
 } from './user.types';
 import { type Nullable } from './utility.types';
 
 export type {
-  CreateUserInput,
   CreateListInput,
   CreateTaskInput,
+  CreateUserInput,
   List,
   Nullable,
   Task,

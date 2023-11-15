@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { type AvatarProps } from './Avatar.types';
 
 enum AvatarSize {
@@ -16,7 +17,7 @@ enum AvatarFontSize {
 const Wrapper = styled.span<AvatarProps>(
   ({ background, theme, size = 'md' }) => `
   align-items: center;
-  background: ${background || theme.colors.black};
+  background: ${background ?? theme.colors.black};
   border-radius: 50%;
   color: ${theme.colors.white};
   cursor: pointer;

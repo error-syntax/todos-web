@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Column } from '../../components/wrappers';
 
 export const Wrapper = styled.main`

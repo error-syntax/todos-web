@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Column, PageWrapper } from '../../components/wrappers';
 
 export const DashboardWrapper = styled(PageWrapper)(

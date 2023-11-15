@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals-react';
+
 import { type UserContext } from '../types';
 
 const userContext = signal<UserContext>({

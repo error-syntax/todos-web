@@ -3,3 +3,4 @@ build/
 coverage/
 
 .eslintrc.cjs
+*.d.ts

@@ -1,12 +1,12 @@
 import { useSignal } from '@preact/signals-react';
 import { useQuery } from '@tanstack/react-query';
 
-import ListItem from './listItem';
-import { Wrapper } from './ListMenu.styles';
 import { fetchUserLists } from '../../api/lists.api';
 import { listsSignal } from '../../signals/list.signals';
 import { userContext } from '../../signals/user.signals';
 import AddListItem from './addListItem';
+import ListItem from './listItem';
+import { Wrapper } from './ListMenu.styles';
 
 export default function ListMenu() {
   const selectedListSignal = useSignal<string | null>(null);

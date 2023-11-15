@@ -10,9 +10,9 @@ import { toFormikValidate } from 'zod-formik-adapter';
 import { logInUser } from '../../api';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { Column, Row, Spacer } from '../../components/wrappers';
-import { Wrapper } from './Login.styles';
 import { userContext } from '../../signals/user.signals';
 import { type UserLogin } from '../../types';
+import { Wrapper } from './Login.styles';
 
 const LOGIN_SCHEMA = z.object({
   email: z
@@ -30,13 +30,13 @@ export default function Login() {
     },
   } = useRouter();
   const redirectURL: ToPathOption =
-    (search as Partial<{ redirect: string }>).redirect || '/dashboard';
+    (search as Partial<{ redirect: string }>).redirect != null || '/dashboard';
 
   const handleSubmit: FormikConfig<UserLogin>['onSubmit'] = (
     values,
     { setErrors, setSubmitting, validateForm },
   ) => {
-    validateForm(values);
+    void validateForm(values);
 
     logInUser(values)
       .then(async (res) => {
@@ -44,7 +44,7 @@ export default function Login() {
         setSubmitting(false);
       })
       .then(() => {
-        navigate({ to: redirectURL });
+        void navigate({ to: redirectURL });
       })
       .catch((err) => {
         setErrors({ password: err.response.data.errors[0].message });

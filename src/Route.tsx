@@ -1,12 +1,12 @@
-import { RootRoute, Route, Router, redirect } from '@tanstack/react-router';
+import { redirect, RootRoute, Route, Router } from '@tanstack/react-router';
 import Cookies from 'js-cookie';
 
+import { authenticateUser } from './api';
+import { userContext } from './signals/user.signals';
+import Dashboard from './views/dashboard';
 import Home from './views/home';
 import Login from './views/login';
 import Signup from './views/signup';
-import Dashboard from './views/dashboard';
-import { userContext } from './signals/user.signals';
-import { authenticateUser } from './api';
 
 const rootRoute = new RootRoute({});
 
@@ -30,8 +30,8 @@ const dashboardRoute = new Route({
   path: 'dashboard',
   component: Dashboard,
   loader: async () => {
-    if (!userContext.value.id) {
-      if (!Cookies.get('sid')) {
+    if (userContext.value.id == null) {
+      if (Cookies.get('sid') == null) {
         throw redirect({
           to: '/login',
           search: {

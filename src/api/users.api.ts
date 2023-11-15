@@ -1,9 +1,10 @@
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
+
 import {
+  type CreateUserInput,
   type User,
   type UserContext,
   type UserLogin,
-  type CreateUserInput,
 } from '../types';
 import { type AuthUser } from '../types/user.types';
 

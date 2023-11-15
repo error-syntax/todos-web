@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
-import { ErrorMessage, Formik, type FormikConfig } from 'formik';
-import { z } from 'zod';
-import { toFormikValidate } from 'zod-formik-adapter';
-
-import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
-import { SignUpForm, Wrapper } from './Signup.styles';
-import { Column, Row, Spacer } from '../../components/wrappers';
-import { createUser } from '../../api';
-import { type CreateUserInput } from '../../types';
 import {
   type ToPathOption,
   useNavigate,
   useRouter,
 } from '@tanstack/react-router';
+import { ErrorMessage, Formik, type FormikConfig } from 'formik';
+import { z } from 'zod';
+import { toFormikValidate } from 'zod-formik-adapter';
+
+import { createUser } from '../../api';
+import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
+import { Column, Row, Spacer } from '../../components/wrappers';
 import { userContext } from '../../signals/user.signals';
+import { type CreateUserInput } from '../../types';
+import { SignUpForm, Wrapper } from './Signup.styles';
 
 const SIGNUP_SCHEMA = z
   .object({
@@ -40,7 +40,7 @@ const SIGNUP_SCHEMA = z
     }
   });
 
-export default function Signup() {
+export default function Signup(): JSX.Element {
   const DEFAULT_VALUES = {
     email: '',
     firstName: '',
@@ -55,14 +55,13 @@ export default function Signup() {
     },
   } = useRouter();
   const redirectURL: ToPathOption =
-    (search as Partial<{ redirect: string }>).redirect || '/dashboard';
+    (search as Partial<{ redirect: string }>).redirect ?? '/dashboard';
 
   const { mutate } = useMutation({
     mutationFn: async (values: CreateUserInput) => await createUser(values),
     onSuccess: (res) => {
-      console.log({ res });
       userContext.value = res;
-      navigate({ to: redirectURL });
+      void navigate({ to: redirectURL });
     },
   });
 
@@ -83,8 +82,6 @@ export default function Signup() {
         >
           {({
             values,
-            errors,
-            touched,
             handleChange,
             handleBlur,
             handleSubmit,
