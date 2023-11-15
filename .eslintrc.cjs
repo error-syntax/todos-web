@@ -7,6 +7,7 @@ module.exports = {
         "standard-with-typescript",
         "plugin:react/recommended",
         'plugin:prettier/recommended',
+        "plugin:react/jsx-runtime",
     ],
     "overrides": [
         {
