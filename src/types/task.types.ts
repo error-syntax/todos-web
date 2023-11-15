@@ -1,4 +1,4 @@
-type Task = {
+interface Task {
   id: string;
   content: string;
   completed: boolean;
@@ -10,8 +10,4 @@ type CreateTaskInput = Omit<Task, 'id'>;
 
 type UpdateTaskInput = Partial<Task>;
 
-export type {
-  CreateTaskInput,
-  Task,
-  UpdateTaskInput,
-};
+export type { CreateTaskInput, Task, UpdateTaskInput };

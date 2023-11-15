@@ -8,17 +8,29 @@ import Dashboard from './views/dashboard';
 import { userContext } from './signals/user.signals';
 import { authenticateUser } from './api';
 
-let rootRoute = new RootRoute({});
+const rootRoute = new RootRoute({});
 
-const indexRoute = new Route({ getParentRoute: () => rootRoute, path: '/', component: Home });
-const signupRoute = new Route({ getParentRoute: () => rootRoute, path: 'signup', component: Signup });
-const loginRoute = new Route({ getParentRoute: () => rootRoute, path: 'login', component: Login });
+const indexRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: Home,
+});
+const signupRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: 'signup',
+  component: Signup,
+});
+const loginRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: 'login',
+  component: Login,
+});
 const dashboardRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'dashboard',
   component: Dashboard,
   loader: async () => {
-    if(!userContext.value.id) {
+    if (!userContext.value.id) {
       if (!Cookies.get('sid')) {
         throw redirect({
           to: '/login',
@@ -30,7 +42,7 @@ const dashboardRoute = new Route({
         const response = await authenticateUser();
 
         if ('data' in response) {
-          userContext.value = response.data.user
+          userContext.value = response.data.user;
         } else {
           throw redirect({
             to: '/login',
@@ -38,10 +50,10 @@ const dashboardRoute = new Route({
               redirect: router.state.location.href,
             },
           });
-        };
+        }
       }
-    }; 
-  }
+    }
+  },
 });
 
 const routeTree = rootRoute.addChildren([
@@ -56,7 +68,7 @@ const router = new Router({ routeTree });
 declare module '@tanstack/react-router' {
   interface Register {
     // This infers the type of our router and registers it across your entire project
-    router: typeof router
+    router: typeof router;
   }
 }
 

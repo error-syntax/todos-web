@@ -24,7 +24,7 @@ export const Wrapper = styled.main`
 `;
 
 export const SignUpForm = styled.form`
-  & > ${Row}:first-of-type  {
+  & > ${Row}:first-of-type {
     gap: 20px;
 
     & > ${Column} {

@@ -1,5 +1,5 @@
 import { signal } from '@preact/signals-react';
-import { UserContext } from '../types';
+import { type UserContext } from '../types';
 
 const userContext = signal<UserContext>({
   email: null,
@@ -8,6 +8,4 @@ const userContext = signal<UserContext>({
   role: 'standard',
 });
 
-export {
-  userContext,
-}
+export { userContext };

@@ -1,7 +1,20 @@
-import { CreateListInput, List, UpdateListInput } from './list.types';
-import { CreateTaskInput, Task, UpdateTaskInput } from './task.types';
-import { User, UserContext, UserLogin, CreateUserInput} from './user.types';
-import { Nullable } from './utility.types';
+import {
+  type CreateListInput,
+  type List,
+  type UpdateListInput,
+} from './list.types';
+import {
+  type CreateTaskInput,
+  type Task,
+  type UpdateTaskInput,
+} from './task.types';
+import {
+  type User,
+  type UserContext,
+  type UserLogin,
+  type CreateUserInput,
+} from './user.types';
+import { type Nullable } from './utility.types';
 
 export type {
   CreateUserInput,
@@ -15,4 +28,4 @@ export type {
   User,
   UserContext,
   UserLogin,
-}
+};

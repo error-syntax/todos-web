@@ -11,11 +11,11 @@ export default function Dashboard() {
         <Avatar />
       </Column>
       <Column>
-        <ListMenu  />
+        <ListMenu />
       </Column>
       <Column>
         <h1>Welcome {userContext.value.name}</h1>
       </Column>
     </DashboardWrapper>
-  )
+  );
 }

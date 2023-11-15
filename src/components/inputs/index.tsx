@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-const Input = styled.input(({ theme: { input }}) => `
+const Input = styled.input(
+  ({ theme: { input } }) => `
   background-color: ${input.background};
   border: 1px solid ${input.border};
   border-radius: 4px;
@@ -23,15 +24,19 @@ const Input = styled.input(({ theme: { input }}) => `
     color: ${input.focus.text};
     outline: 1px solid ${input.focus.outline};
   }
-`);
+`,
+);
 
-const Label = styled.label(({ theme: { text } }) => `
+const Label = styled.label(
+  ({ theme: { text } }) => `
   color: ${text};
   font-size: 14px;
   line-height: 18px;
-`);
+`,
+);
 
-const Button = styled.button(({ theme: { button } }) => `
+const Button = styled.button(
+  ({ theme: { button } }) => `
   background: ${button.background};
   border: 1px solid ${button.border};
   border-radius: 4px;
@@ -57,7 +62,8 @@ const Button = styled.button(({ theme: { button } }) => `
     color: ${button.focus.text};
     outline: 1px solid ${button.focus.outline};
   }
-`);
+`,
+);
 
 const ErrorWrapper = styled.div`
   color: #cc0000;
@@ -67,9 +73,4 @@ const ErrorWrapper = styled.div`
   margin: 0;
 `;
 
-export {
-  Button,
-  ErrorWrapper,
-  Input,
-  Label,
-}
+export { Button, ErrorWrapper, Input, Label };

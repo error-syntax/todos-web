@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { type Meta, type StoryObj } from '@storybook/react';
 import ListItem from '../components/listMenu/listItem';
 
 const meta = {
@@ -10,15 +10,15 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const natural: Story =  {
+export const natural: Story = {
   args: {
     listName: 'Default List state',
-  }
-}
+  },
+};
 
 export const selected: Story = {
   args: {
     listName: 'Selected List',
     state: 'selected',
-  }
-}
+  },
+};

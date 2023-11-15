@@ -1,7 +1,7 @@
-import { List } from '../../types';
+import { type List } from '../../types';
 
-type ListMenuProps = {
-  lists: Array<List>;
+interface ListMenuProps {
+  lists: List[];
 }
 
 export type { ListMenuProps };

@@ -1,8 +1,8 @@
-import { RouterProvider } from '@tanstack/react-router'
+import { RouterProvider } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
-import router from './Route'
+import router from './Route';
 import { theme } from '../theme';
 
 const queryClient = new QueryClient({
@@ -23,7 +23,7 @@ function App() {
         <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
-  )
+  );
 }
 
-export default App
+export default App;

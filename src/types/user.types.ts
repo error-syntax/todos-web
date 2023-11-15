@@ -1,18 +1,18 @@
-import { Nullable } from '.';
+import { type Nullable } from '.';
 
-type AuthUser = {
+interface AuthUser {
   cookie: {
-    expires: string; 
-    httpOnly: boolean; 
+    expires: string;
+    httpOnly: boolean;
     originalMaxAge: number;
     path: string;
-    secure: boolean; 
-  },
-  authenticated: boolean,
-  user: UserContext
+    secure: boolean;
+  };
+  authenticated: boolean;
+  user: UserContext;
 }
 
-type User = {
+interface User {
   id: number;
   email: string;
   name: string;
@@ -21,7 +21,7 @@ type User = {
 
 type UserContext = Nullable<User>;
 
-type CreateUserInput = {
+interface CreateUserInput {
   email: string;
   firstName: string;
   lastName: string;
@@ -29,12 +29,6 @@ type CreateUserInput = {
   passwordConfirm: string;
 }
 
-type UserLogin = Pick<CreateUserInput, 'email' | 'password'>
+type UserLogin = Pick<CreateUserInput, 'email' | 'password'>;
 
-export type {
-  AuthUser,
-  CreateUserInput,
-  User,
-  UserContext,
-  UserLogin,
-}
+export type { AuthUser, CreateUserInput, User, UserContext, UserLogin };

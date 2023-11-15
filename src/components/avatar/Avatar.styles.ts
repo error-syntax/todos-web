@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { AvatarProps } from './Avatar.types';
+import { type AvatarProps } from './Avatar.types';
 
 enum AvatarSize {
   'sm' = '24px',
   'md' = '40px',
   'lg' = '56px',
-};
+}
 
 enum AvatarFontSize {
   'sm' = '10px',
@@ -13,7 +13,8 @@ enum AvatarFontSize {
   'lg' = '24px',
 }
 
-const Wrapper = styled.span<AvatarProps>(({ background, theme, size = 'md', }) => `
+const Wrapper = styled.span<AvatarProps>(
+  ({ background, theme, size = 'md' }) => `
   align-items: center;
   background: ${background || theme.colors.black};
   border-radius: 50%;
@@ -24,8 +25,7 @@ const Wrapper = styled.span<AvatarProps>(({ background, theme, size = 'md', }) =
   height: ${AvatarSize[size]};
   justify-content: center;
   width: ${AvatarSize[size]};
-`,);
+`,
+);
 
-export {
-  Wrapper,
-}
+export { Wrapper };

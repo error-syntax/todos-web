@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { ErrorMessage, Formik, FormikConfig } from 'formik';
+import { ErrorMessage, Formik, type FormikConfig } from 'formik';
 import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 
@@ -7,26 +7,28 @@ import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { SignUpForm, Wrapper } from './Signup.styles';
 import { Column, Row, Spacer } from '../../components/wrappers';
 import { createUser } from '../../api';
-import { CreateUserInput } from '../../types';
-import { ToPathOption, useNavigate, useRouter } from '@tanstack/react-router';
+import { type CreateUserInput } from '../../types';
+import {
+  type ToPathOption,
+  useNavigate,
+  useRouter,
+} from '@tanstack/react-router';
 import { userContext } from '../../signals/user.signals';
 
-const SIGNUP_SCHEMA = z.object(
-  {
-    email: z.string()
-      .email('Invalid Email.'),
-    firstName: z.string()
-      .max(50),
-    lastName: z.string()
-      .max(50),
-    password: z.string()
+const SIGNUP_SCHEMA = z
+  .object({
+    email: z.string().email('Invalid Email.'),
+    firstName: z.string().max(50),
+    lastName: z.string().max(50),
+    password: z
+      .string()
       .min(8, 'Your password must be at least 8 characters')
       .max(50, 'Your password cannot be longer than 50 characters'),
-    passwordConfirm: z.string()
+    passwordConfirm: z
+      .string()
       .min(8, 'Your password must be at least 8 characters')
       .max(50, 'Your password cannot be longer than 50 characters'),
-  }
-)
+  })
   .required()
   .superRefine(({ password, passwordConfirm }, ctx) => {
     if (password !== passwordConfirm) {
@@ -47,21 +49,26 @@ export default function Signup() {
     passwordConfirm: '',
   };
   const navigate = useNavigate({ from: '/signup' });
-  const { state: { location: { search } } } = useRouter();
-  const redirectURL: ToPathOption = (search as Partial<{ redirect: string}>).redirect || '/dashboard';
+  const {
+    state: {
+      location: { search },
+    },
+  } = useRouter();
+  const redirectURL: ToPathOption =
+    (search as Partial<{ redirect: string }>).redirect || '/dashboard';
 
   const { mutate } = useMutation({
-    mutationFn: (values: CreateUserInput) => createUser(values),  
+    mutationFn: async (values: CreateUserInput) => await createUser(values),
     onSuccess: (res) => {
-      console.log({res});
+      console.log({ res });
       userContext.value = res;
       navigate({ to: redirectURL });
-    }
-  })
+    },
+  });
 
   const handleSubmit: FormikConfig<CreateUserInput>['onSubmit'] = (values) => {
-    mutate(values)
-  }
+    mutate(values);
+  };
 
   return (
     <Wrapper>
@@ -74,89 +81,123 @@ export default function Signup() {
           onSubmit={handleSubmit}
           validate={toFormikValidate(SIGNUP_SCHEMA)}
         >
-          {
-            ({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <SignUpForm onSubmit={handleSubmit}>
-                <Row>
-                  <Column>
-                    <Label htmlFor='firstName'>First Name:</Label>
-                    <Spacer height={8} />
-                    <Input
-                      autoComplete='off'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='firstName'
-                      type='text'
-                      value={values.firstName}
-                    />
-                    <Spacer height={4} />
-                    <ErrorWrapper>
-                      <ErrorMessage name='firstName' />
-                    </ErrorWrapper>
-                  </Column>
-                  <Column>
-                    <Label htmlFor='lastName'>Last Name:</Label>
-                    <Spacer height={8} />
-                    <Input autoComplete='off' onChange={handleChange} onBlur={handleBlur} name='lastName' type='text' value={values.lastName} />
-                    <Spacer height={4} />
-                    <ErrorWrapper>
-                      <ErrorMessage name='lastName' />
-                    </ErrorWrapper>
-                  </Column>
-                </Row>
-                <Spacer height={12} />
-                <Row>
-                  <Column>
-                    <Label htmlFor='email'>Email:</Label>
-                    <Spacer height={8} />
-                    <Input autoComplete='off' onChange={handleChange} onBlur={handleBlur} name='email' type='email' value={values.email} />
-                    <Spacer height={4} />
-                    <ErrorWrapper>
-                      <ErrorMessage name='email' />
-                    </ErrorWrapper>
-                  </Column>
-                </Row>
-                <Spacer height={12} />
-                <Row>
-                  <Column>
-                    <Label htmlFor='password'>Password:</Label>
-                    <Spacer height={8} />
-                    <Input autoComplete='off' onChange={handleChange} onBlur={handleBlur} name='password' type='password' value={values.password} />
-                    <Spacer height={4} />
-                    <ErrorWrapper>
-                      <ErrorMessage name='password' />
-                    </ErrorWrapper>
-                  </Column>
-                </Row>
-                <Spacer height={12} />
-                <Row>
-                  <Column>
-                    <Label htmlFor='passwordConfirm'>Password Confirmation:</Label>
-                    <Spacer height={8} />
-                    <Input autoComplete='off' onChange={handleChange} onBlur={handleBlur} name='passwordConfirm' type='password' value={values.passwordConfirm} />
-                    <Spacer height={4} />
-                    <ErrorWrapper>
-                      <ErrorMessage name='passwordConfirm' />
-                    </ErrorWrapper>
-                  </Column>
-                </Row>
-                <Spacer height={12} />
-                <Row>
-                  <Button style={{ flex: '1' }} disabled={isSubmitting} type='submit'>Sign Up!</Button>
-                </Row>
-              </SignUpForm>
-            )
-          }
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <SignUpForm onSubmit={handleSubmit}>
+              <Row>
+                <Column>
+                  <Label htmlFor="firstName">First Name:</Label>
+                  <Spacer height={8} />
+                  <Input
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="firstName"
+                    type="text"
+                    value={values.firstName}
+                  />
+                  <Spacer height={4} />
+                  <ErrorWrapper>
+                    <ErrorMessage name="firstName" />
+                  </ErrorWrapper>
+                </Column>
+                <Column>
+                  <Label htmlFor="lastName">Last Name:</Label>
+                  <Spacer height={8} />
+                  <Input
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="lastName"
+                    type="text"
+                    value={values.lastName}
+                  />
+                  <Spacer height={4} />
+                  <ErrorWrapper>
+                    <ErrorMessage name="lastName" />
+                  </ErrorWrapper>
+                </Column>
+              </Row>
+              <Spacer height={12} />
+              <Row>
+                <Column>
+                  <Label htmlFor="email">Email:</Label>
+                  <Spacer height={8} />
+                  <Input
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="email"
+                    type="email"
+                    value={values.email}
+                  />
+                  <Spacer height={4} />
+                  <ErrorWrapper>
+                    <ErrorMessage name="email" />
+                  </ErrorWrapper>
+                </Column>
+              </Row>
+              <Spacer height={12} />
+              <Row>
+                <Column>
+                  <Label htmlFor="password">Password:</Label>
+                  <Spacer height={8} />
+                  <Input
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="password"
+                    type="password"
+                    value={values.password}
+                  />
+                  <Spacer height={4} />
+                  <ErrorWrapper>
+                    <ErrorMessage name="password" />
+                  </ErrorWrapper>
+                </Column>
+              </Row>
+              <Spacer height={12} />
+              <Row>
+                <Column>
+                  <Label htmlFor="passwordConfirm">
+                    Password Confirmation:
+                  </Label>
+                  <Spacer height={8} />
+                  <Input
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="passwordConfirm"
+                    type="password"
+                    value={values.passwordConfirm}
+                  />
+                  <Spacer height={4} />
+                  <ErrorWrapper>
+                    <ErrorMessage name="passwordConfirm" />
+                  </ErrorWrapper>
+                </Column>
+              </Row>
+              <Spacer height={12} />
+              <Row>
+                <Button
+                  style={{ flex: '1' }}
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  Sign Up!
+                </Button>
+              </Row>
+            </SignUpForm>
+          )}
         </Formik>
       </Column>
     </Wrapper>
-  )
+  );
 }

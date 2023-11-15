@@ -1,15 +1,11 @@
-type List = {
+interface List {
   id: string;
   name: string;
   ownerId: number;
 }
 
-type CreateListInput = Omit<List, 'id'>
+type CreateListInput = Omit<List, 'id'>;
 
 type UpdateListInput = Partial<List>;
 
-export type {
-  CreateListInput,
-  List,
-  UpdateListInput,
-};
+export type { CreateListInput, List, UpdateListInput };

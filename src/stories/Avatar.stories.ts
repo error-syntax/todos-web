@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { type Meta, type StoryObj } from '@storybook/react';
 
 import Avatar from '../components/avatar';
 
@@ -25,19 +25,19 @@ export const Small: Story = {
   args: {
     background: undefined,
     size: 'sm',
-  }
+  },
 };
 
 export const Medium: Story = {
   args: {
     background: undefined,
     size: 'md',
-  }
+  },
 };
 
 export const Large: Story = {
   args: {
     background: undefined,
     size: 'lg',
-  }
+  },
 };

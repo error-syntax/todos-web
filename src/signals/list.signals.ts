@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals-react';
-import { List } from '../types';
+import { type List } from '../types';
 
-const listsSignal = signal<Array<List>>([]);
+const listsSignal = signal<List[]>([]);
 
 export { listsSignal };

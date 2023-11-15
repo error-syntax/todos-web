@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Column, PageWrapper } from '../../components/wrappers';
 
-export const DashboardWrapper = styled(PageWrapper)(({ theme }) => `
+export const DashboardWrapper = styled(PageWrapper)(
+  ({ theme }) => `
   background-color: ${theme.background};
 
   & > ${Column}:first-of-type {
@@ -15,4 +16,5 @@ export const DashboardWrapper = styled(PageWrapper)(({ theme }) => `
     border-right: 2px solid ${theme.colors.grey};
     flex-basis: 350px;
   }
-`);
+`,
+);

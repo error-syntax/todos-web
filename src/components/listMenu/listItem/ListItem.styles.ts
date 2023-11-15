@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { ListItemProps } from './ListItem.types';
+import { type ListItemProps } from './ListItem.types';
 
-export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(({ state, theme: { listItem, shadow } }) => `
+export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(
+  ({ state, theme: { listItem, shadow } }) => `
   align-items: center;
   background-color: ${listItem.background};
   border-radius: 4px;
@@ -63,4 +64,5 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(({ state, theme: 
       color: ${listItem.focus.text};
     }
   }
-`,);
+`,
+);

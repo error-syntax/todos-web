@@ -14,30 +14,30 @@ export default function ListMenu() {
 
   useQuery({
     queryKey: ['lists', `${userId}`],
-    queryFn: async () => fetchUserLists(userId),
+    queryFn: async () => await fetchUserLists(userId),
   });
 
   return (
     <Wrapper>
-      {
-        listsSignal.value.map((list) => {
-          return (
-            <ListItem
-              handleClick={() => {
-                if (selectedListSignal.value ===  list.id) {
-                  selectedListSignal.value = null;
-                } else {
-                  selectedListSignal.value = list.id;
-                }
-              }}
-              key={list.id}
-              listName={list.name}
-              state={selectedListSignal.value === list.id ? 'selected' : 'default'}
-            />
-          )
-        })
-      }
+      {listsSignal.value.map((list) => {
+        return (
+          <ListItem
+            handleClick={() => {
+              if (selectedListSignal.value === list.id) {
+                selectedListSignal.value = null;
+              } else {
+                selectedListSignal.value = list.id;
+              }
+            }}
+            key={list.id}
+            listName={list.name}
+            state={
+              selectedListSignal.value === list.id ? 'selected' : 'default'
+            }
+          />
+        );
+      })}
       <AddListItem />
     </Wrapper>
-  )
+  );
 }

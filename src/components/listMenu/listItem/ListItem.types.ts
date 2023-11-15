@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { type RefObject } from 'react';
 
 type ListItemProps = {
   handleClick?: VoidFunction;
@@ -6,6 +6,6 @@ type ListItemProps = {
   inputRef?: RefObject<HTMLInputElement>;
   listName: string;
   state?: 'default' | 'selected' | 'editing';
-} & React.HTMLProps<HTMLLIElement>; 
+} & React.HTMLProps<HTMLLIElement>;
 
 export type { ListItemProps };
