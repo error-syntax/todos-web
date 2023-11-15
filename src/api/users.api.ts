@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { User, UserContext, UserLogin, UserSignUp } from '../types';
+import { User, UserContext, UserLogin, CreateUserInput } from '../types';
 import { AuthUser } from '../types/user.types';
 
-export const createUser = async (form: UserSignUp) => {
+export const createUser = async (form: CreateUserInput) => {
   const {
     email,
     firstName,
@@ -35,7 +35,7 @@ export const logInUser = async (form: UserLogin) => {
 
 export const authenticateUser = async () => {
   try {
-    const res: AxiosResponse<{ data: AuthUser  }> = await axios.post(
+    const res: AxiosResponse<AuthUser> = await axios.post(
       `http://localhost:3001/authorize`,
       {},
       { withCredentials: true }

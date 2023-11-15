@@ -1,21 +1,22 @@
 import Cookies from 'js-cookie';
 
-import { authenticateUser, createUser } from './users.api';
+import { authenticateUser, createUser, logInUser } from './users.api';
 import { userContext } from '../signals/user.signals';
 import { AxiosResponse } from 'axios';
 import { AuthUser } from '../types/user.types';
+import { createList, fetchUserLists } from './lists.api';
 
 async function isAuthenticated() {
   const sid = Cookies.get('sid');
 
   if (!sid) return false;
 
-  const response = await authenticateUser().then(res => {
-    console.log(res)
-    return res;
-  });
+  const response = await authenticateUser();
 
-  if ('name' in response && response.name === 'AxiosError') {
+  if (
+    'name' in response && response.name === 'AxiosError'
+    || ('data' in response && !response.data)
+  ) {
     return false;
   }
 
@@ -27,6 +28,10 @@ async function isAuthenticated() {
 }
 
 export {
+  authenticateUser,
+  createList,
   createUser,
+  fetchUserLists,
   isAuthenticated,
-}
+  logInUser,
+};
