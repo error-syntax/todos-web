@@ -5,14 +5,14 @@ export const DashboardWrapper = styled(PageWrapper)(({ theme }) => `
   background-color: ${theme.background};
 
   & > ${Column}:first-of-type {
-    border-right: 1px solid ${theme.colors.grey};
+    border-right: 2px solid ${theme.colors.grey};
     justify-content: flex-end;
     padding: 20px;
   }
 
   & > ${Column}:nth-of-type(2) {
     align-items: stretch;
-    border-right: 1px solid ${theme.colors.grey};
+    border-right: 2px solid ${theme.colors.grey};
     flex-basis: 350px;
   }
 `);

@@ -1,4 +1,4 @@
-import { useRouter } from "@tanstack/react-router"
+import { useRouter } from '@tanstack/react-router'
 
 export default function Home() {
   const router = useRouter();

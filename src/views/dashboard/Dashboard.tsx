@@ -1,8 +1,8 @@
-import Avatar from "../../components/avatar";
-import ListMenu from "../../components/listMenu";
-import { Column } from "../../components/wrappers";
-import { userContext } from "../../signals/user.signals";
-import { DashboardWrapper } from "./Dashboard.styles";
+import Avatar from '../../components/avatar';
+import ListMenu from '../../components/listMenu';
+import { Column } from '../../components/wrappers';
+import { userContext } from '../../signals/user.signals';
+import { DashboardWrapper } from './Dashboard.styles';
 
 export default function Dashboard() {
   return (

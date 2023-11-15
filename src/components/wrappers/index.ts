@@ -21,7 +21,7 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const Spacer = styled.div<{ height?: number, width?: number }>(({ height = 0, width = 0 }) => `
+const Spacer = styled.span<{ height?: number, width?: number }>(({ height = 0, width = 0 }) => `
   display: inline-flex;
   height: ${height}px;
   width: ${width}px;
