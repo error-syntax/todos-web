@@ -6,4 +6,12 @@ type Task = {
   listId: string;
 }
 
-export type { Task };
+type CreateTaskInput = Omit<Task, 'id'>;
+
+type UpdateTaskInput = Partial<Task>;
+
+export type {
+  CreateTaskInput,
+  Task,
+  UpdateTaskInput,
+};

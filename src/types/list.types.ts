@@ -1,6 +1,15 @@
 type List = {
   id: string;
   name: string;
+  ownerId: number;
 }
 
-export type { List };
+type CreateListInput = Omit<List, 'id'>
+
+type UpdateListInput = Partial<List>;
+
+export type {
+  CreateListInput,
+  List,
+  UpdateListInput,
+};

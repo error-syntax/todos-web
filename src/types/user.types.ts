@@ -1,4 +1,4 @@
-import { Nullable } from ".";
+import { Nullable } from '.';
 
 type AuthUser = {
   cookie: {
@@ -21,7 +21,7 @@ type User = {
 
 type UserContext = Nullable<User>;
 
-type UserSignUp = {
+type CreateUserInput = {
   email: string;
   firstName: string;
   lastName: string;
@@ -29,12 +29,12 @@ type UserSignUp = {
   passwordConfirm: string;
 }
 
-type UserLogin = Pick<UserSignUp, 'email' | 'password'>
+type UserLogin = Pick<CreateUserInput, 'email' | 'password'>
 
 export type {
   AuthUser,
+  CreateUserInput,
   User,
   UserContext,
   UserLogin,
-  UserSignUp,
 }

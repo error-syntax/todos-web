@@ -7,7 +7,7 @@ import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { SignUpForm, Wrapper } from './Signup.styles';
 import { Column, Row, Spacer } from '../../components/wrappers';
 import { createUser } from '../../api';
-import { UserSignUp } from '../../types';
+import { CreateUserInput } from '../../types';
 import { ToPathOption, useNavigate, useRouter } from '@tanstack/react-router';
 import { userContext } from '../../signals/user.signals';
 
@@ -51,7 +51,7 @@ export default function Signup() {
   const redirectURL: ToPathOption = (search as Partial<{ redirect: string}>).redirect || '/dashboard';
 
   const { mutate } = useMutation({
-    mutationFn: (values: UserSignUp) => createUser(values),  
+    mutationFn: (values: CreateUserInput) => createUser(values),  
     onSuccess: (res) => {
       console.log({res});
       userContext.value = res;
@@ -59,7 +59,7 @@ export default function Signup() {
     }
   })
 
-  const handleSubmit: FormikConfig<UserSignUp>['onSubmit'] = (values) => {
+  const handleSubmit: FormikConfig<CreateUserInput>['onSubmit'] = (values) => {
     mutate(values)
   }
 

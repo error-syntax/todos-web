@@ -3,7 +3,7 @@ import { ErrorMessage, Formik, FormikConfig } from 'formik';
 import { z } from 'zod'; 
 import { toFormikValidate } from 'zod-formik-adapter';
 
-import { logInUser } from '../../api/users.api';
+import { logInUser } from '../../api';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { Column, Row, Spacer } from '../../components/wrappers';
 import { Wrapper } from './Login.styles';
