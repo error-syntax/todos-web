@@ -8,6 +8,32 @@ import Home from './views/home';
 import Login from './views/login';
 import Signup from './views/signup';
 
+const handleProtectedRoute = async () => {
+  if (!userContext.value?.id) {
+    if (!Cookies.get('sid')) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: router.state.location.href,
+        },
+      });
+    } else {
+      const response = await authenticateUser();
+
+      if ('data' in response && response.data.user) {
+        userContext.value = response.data.user;
+      } else {
+        throw redirect({
+          to: '/login',
+          search: {
+            redirect: router.state.location.href,
+          },
+        });
+      }
+    }
+  }
+};
+
 const rootRoute = new RootRoute({});
 
 const indexRoute = new Route({
@@ -29,31 +55,7 @@ const dashboardRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'dashboard',
   component: Dashboard,
-  loader: async () => {
-    if (userContext.value.id == null) {
-      if (Cookies.get('sid') == null) {
-        throw redirect({
-          to: '/login',
-          search: {
-            redirect: router.state.location.href,
-          },
-        });
-      } else {
-        const response = await authenticateUser();
-
-        if ('data' in response) {
-          userContext.value = response.data.user;
-        } else {
-          throw redirect({
-            to: '/login',
-            search: {
-              redirect: router.state.location.href,
-            },
-          });
-        }
-      }
-    }
-  },
+  loader: handleProtectedRoute,
 });
 
 const routeTree = rootRoute.addChildren([
