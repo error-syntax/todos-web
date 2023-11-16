@@ -12,7 +12,7 @@ export const createUser = async (form: CreateUserInput) => {
   const { email, firstName, lastName, password } = form;
 
   const res = await axios.post<User>(
-    `http://localhost:3001/users/create`,
+    `${import.meta.env.VITE_API_URL}/users/create`,
     {
       email,
       name: `${firstName} ${lastName}`,
@@ -26,7 +26,7 @@ export const createUser = async (form: CreateUserInput) => {
 
 export const logInUser = async (form: UserLogin) => {
   const res = await axios.post<UserContext>(
-    `http://localhost:3001/users/login`,
+    `${import.meta.env.VITE_API_URL}/users/login`,
     form,
     { withCredentials: true },
   );
@@ -37,7 +37,7 @@ export const logInUser = async (form: UserLogin) => {
 export const authenticateUser = async () => {
   try {
     const res: AxiosResponse<AuthUser> = await axios.post(
-      `http://localhost:3001/authorize`,
+      `${import.meta.env.VITE_API_URL}/authorize`,
       {},
       { withCredentials: true },
     );

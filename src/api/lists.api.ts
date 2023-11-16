@@ -7,9 +7,12 @@ import { type CreateListInput, type List } from '../types/list.types';
 export const fetchUserLists = async (userId?: number | null) => {
   if (userId == null) throw new Error('Please provide a user Id');
 
-  const res = await axios.get(`http://localhost:3001/lists/${userId}`, {
-    withCredentials: true,
-  });
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/lists/${userId}`,
+    {
+      withCredentials: true,
+    },
+  );
 
   listsSignal.value = res.data;
 
@@ -18,7 +21,7 @@ export const fetchUserLists = async (userId?: number | null) => {
 
 export const createList = async (input: Nullable<CreateListInput>) => {
   const res = await axios.post<List[]>(
-    `http://localhost:3001/lists/create`,
+    `${import.meta.env.VITE_API_URL}/lists/create`,
     { ...input },
     { withCredentials: true },
   );
