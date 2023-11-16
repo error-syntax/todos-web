@@ -30,7 +30,7 @@ export default function Login() {
     },
   } = useRouter();
   const redirectURL: ToPathOption =
-    (search as Partial<{ redirect: string }>).redirect != null || '/dashboard';
+    (search as Partial<{ redirect: string }>).redirect ?? '/dashboard';
 
   const handleSubmit: FormikConfig<UserLogin>['onSubmit'] = (
     values,

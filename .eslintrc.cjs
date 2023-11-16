@@ -42,5 +42,6 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-throw-literal": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
     }
 }

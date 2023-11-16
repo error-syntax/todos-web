@@ -14,7 +14,7 @@ export default function Dashboard() {
         <ListMenu />
       </Column>
       <Column>
-        <h1>Welcome {userContext.value.name}</h1>
+        <h1>Welcome {userContext.value?.name}</h1>
       </Column>
     </DashboardWrapper>
   );
