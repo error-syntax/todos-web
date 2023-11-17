@@ -1,4 +1,4 @@
-import { userContext } from '../../signals/user.signals';
+import { userContext } from '../../signals/users.signals';
 import * as SAvatar from './Avatar.styles';
 import { type AvatarProps } from './Avatar.types';
 

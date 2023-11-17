@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals-react';
 
-import { type UserContext } from '../types';
+import { type UserContext } from '../api/types';
 
 const userContext = signal<UserContext>({
   email: null,

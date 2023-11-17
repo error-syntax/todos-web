@@ -8,10 +8,10 @@ import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 
 import { logInUser } from '../../api';
+import { Column, Row, Spacer } from '../../components/containers';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
-import { Column, Row, Spacer } from '../../components/wrappers';
-import { userContext } from '../../signals/user.signals';
-import { type UserLogin } from '../../types';
+import { userContext } from '../../signals/users.signals';
+import { type UserLogin } from '../../api/types';
 import { Wrapper } from './Login.styles';
 
 const LOGIN_SCHEMA = z.object({
@@ -57,7 +57,7 @@ export default function Login() {
       <Column>Image Here</Column>
       <Column>
         <h1>Login!</h1>
-        <Spacer height={40} />
+        <Spacer $height={40} />
         <Formik
           initialValues={{ email: '', password: '' }}
           onSubmit={handleSubmit}
@@ -76,7 +76,7 @@ export default function Login() {
               <Row>
                 <Column>
                   <Label htmlFor="email">Email:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -90,11 +90,11 @@ export default function Login() {
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Column>
                   <Label htmlFor="password">Password:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -108,7 +108,7 @@ export default function Login() {
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Button
                   disabled={isSubmitting}

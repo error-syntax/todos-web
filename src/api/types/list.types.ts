@@ -1,5 +1,5 @@
 interface List {
-  id: string;
+  id: number;
   name: string;
   ownerId: number;
 }

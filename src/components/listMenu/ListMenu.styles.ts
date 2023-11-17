@@ -5,7 +5,7 @@ export const Wrapper = styled.ul`
   flex-direction: column;
   justify-content: normal;
   overflow: scroll;
-  padding: 12px;
+  padding: 20px 12px;
 
   & > li {
     flex-grow: 0;

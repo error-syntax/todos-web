@@ -1,9 +1,9 @@
 import { type AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
-import { userContext } from '../signals/user.signals';
-import { type AuthUser } from '../types/user.types';
+import { userContext } from '../signals/users.signals';
 import { createList, fetchUserLists } from './lists.api';
+import { type AuthUser } from './types/user.types';
 import { authenticateUser, createUser, logInUser } from './users.api';
 
 async function isAuthenticated() {

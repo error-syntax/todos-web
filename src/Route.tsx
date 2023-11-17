@@ -2,7 +2,7 @@ import { redirect, RootRoute, Route, Router } from '@tanstack/react-router';
 import Cookies from 'js-cookie';
 
 import { authenticateUser } from './api';
-import { userContext } from './signals/user.signals';
+import { userContext } from './signals/users.signals';
 import Dashboard from './views/dashboard';
 import Home from './views/home';
 import Login from './views/login';

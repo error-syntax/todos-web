@@ -5,8 +5,8 @@ import {
   type User,
   type UserContext,
   type UserLogin,
-} from '../types';
-import { type AuthUser } from '../types/user.types';
+} from './types';
+import { type AuthUser } from './types/user.types';
 
 export const createUser = async (form: CreateUserInput) => {
   const { email, firstName, lastName, password } = form;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import { listsSignal } from '../signals/list.signals';
-import { type Nullable } from '../types';
-import { type CreateListInput, type List } from '../types/list.types';
+import { listsSignal } from '../signals/lists.signals';
+import { type Nullable } from './types';
+import { type CreateListInput, type List } from './types/list.types';
 
 export const fetchUserLists = async (userId?: number | null) => {
   if (userId == null) throw new Error('Please provide a user Id');

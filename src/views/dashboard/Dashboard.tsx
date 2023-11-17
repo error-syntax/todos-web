@@ -1,10 +1,22 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useQuery } from '@tanstack/react-query';
+
+import { fetchTasksByListId } from '../../api/tasks.api';
 import Avatar from '../../components/avatar';
+import { Column, Row, Spacer } from '../../components/containers';
+import { Button } from '../../components/inputs';
 import ListMenu from '../../components/listMenu';
-import { Column } from '../../components/wrappers';
-import { userContext } from '../../signals/user.signals';
+import { activeListData, activeListSignal } from '../../signals/lists.signals';
 import { DashboardWrapper } from './Dashboard.styles';
 
 export default function Dashboard() {
+  useQuery({
+    enabled: activeListSignal.value !== null,
+    queryKey: ['list', 'tasks', activeListSignal.value],
+    queryFn: async () => await fetchTasksByListId(activeListSignal.value),
+  });
+
   return (
     <DashboardWrapper>
       <Column>
@@ -13,8 +25,17 @@ export default function Dashboard() {
       <Column>
         <ListMenu />
       </Column>
-      <Column>
-        <h1>Welcome {userContext.value?.name}</h1>
+      <Column $padding={20}>
+        <Column>
+          <Row id="list_header_row">
+            <h2>{activeListData.value?.name} Tasks</h2>
+            <Button>
+              <FontAwesomeIcon icon={faPlus} size="lg" />
+              <Spacer $width={8} />
+              New Task
+            </Button>
+          </Row>
+        </Column>
       </Column>
     </DashboardWrapper>
   );

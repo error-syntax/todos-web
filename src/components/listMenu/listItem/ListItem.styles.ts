@@ -13,9 +13,10 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(
   flex-grow: 1;
   font-size: 16px;
   height: 50px;
+  justify-content: ${state === 'editing' ? 'stretch' : 'space-between'};
   line-height: 20px;
   min-width: 250px;
-  padding: 8px 60px 8px 12px; 
+  padding: 8px 12px; 
   position: relative;
 
   & p {
@@ -25,11 +26,15 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(
     white-space: nowrap;
   }
 
+  & > input {
+    flex-grow: 1;
+  }
+
   ${
     state === 'selected' &&
     `
       background-color: ${listItem.hover.background};
-      border: ${listItem.hover.border};
+      border: 1px solid ${listItem.hover.border};
       outline: 1px solid ${listItem.hover.outline};
 
       & p {

@@ -4,9 +4,9 @@ const darkTheme = {
   name: 'dark',
   colors,
   button: {
-    background: colors.darkGrey,
+    background: colors.white,
     border: colors.darkGrey,
-    text: colors.white,
+    text: colors.black,
     outline: colors.lightGrey,
     hover: {
       background: colors.lightGrey,

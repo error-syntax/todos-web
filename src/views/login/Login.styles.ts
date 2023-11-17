@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Column } from '../../components/wrappers';
+import { Column } from '../../components/containers';
 
 export const Wrapper = styled.main`
   display: flex;

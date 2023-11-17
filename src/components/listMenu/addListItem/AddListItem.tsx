@@ -5,8 +5,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 import { createList } from '../../../api';
-import { userContext } from '../../../signals/user.signals';
-import { Spacer } from '../../wrappers';
+import { userContext } from '../../../signals/users.signals';
+import { Spacer } from '../../containers';
 import ListItem from '../listItem';
 import { type ListItemProps } from '../listItem/ListItem.types';
 import { AddListButton } from './AddListItem.styles';
@@ -60,7 +60,7 @@ export default function AddListItem() {
         >
           <p>
             <FontAwesomeIcon icon={faCirclePlus} />
-            <Spacer width={8} />
+            <Spacer $width={8} />
             Create a New List
           </p>
         </AddListButton>

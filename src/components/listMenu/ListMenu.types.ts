@@ -1,4 +1,4 @@
-import { type List } from '../../types';
+import { type List } from '../../api/types';
 
 interface ListMenuProps {
   lists: List[];

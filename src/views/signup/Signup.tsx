@@ -9,10 +9,10 @@ import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 
 import { createUser } from '../../api';
+import { Column, Row, Spacer } from '../../components/containers';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
-import { Column, Row, Spacer } from '../../components/wrappers';
-import { userContext } from '../../signals/user.signals';
-import { type CreateUserInput } from '../../types';
+import { userContext } from '../../signals/users.signals';
+import { type CreateUserInput } from '../../api/types';
 import { SignUpForm, Wrapper } from './Signup.styles';
 
 const SIGNUP_SCHEMA = z
@@ -74,7 +74,7 @@ export default function Signup(): JSX.Element {
       <Column>Image Here</Column>
       <Column>
         <h1>Sign Up</h1>
-        <Spacer height={40} />
+        <Spacer $height={40} />
         <Formik
           initialValues={DEFAULT_VALUES}
           onSubmit={handleSubmit}
@@ -91,7 +91,7 @@ export default function Signup(): JSX.Element {
               <Row>
                 <Column>
                   <Label htmlFor="firstName">First Name:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -100,14 +100,14 @@ export default function Signup(): JSX.Element {
                     type="text"
                     value={values.firstName}
                   />
-                  <Spacer height={4} />
+                  <Spacer $height={4} />
                   <ErrorWrapper>
                     <ErrorMessage name="firstName" />
                   </ErrorWrapper>
                 </Column>
                 <Column>
                   <Label htmlFor="lastName">Last Name:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -116,17 +116,17 @@ export default function Signup(): JSX.Element {
                     type="text"
                     value={values.lastName}
                   />
-                  <Spacer height={4} />
+                  <Spacer $height={4} />
                   <ErrorWrapper>
                     <ErrorMessage name="lastName" />
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Column>
                   <Label htmlFor="email">Email:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -135,17 +135,17 @@ export default function Signup(): JSX.Element {
                     type="email"
                     value={values.email}
                   />
-                  <Spacer height={4} />
+                  <Spacer $height={4} />
                   <ErrorWrapper>
                     <ErrorMessage name="email" />
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Column>
                   <Label htmlFor="password">Password:</Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -154,19 +154,19 @@ export default function Signup(): JSX.Element {
                     type="password"
                     value={values.password}
                   />
-                  <Spacer height={4} />
+                  <Spacer $height={4} />
                   <ErrorWrapper>
                     <ErrorMessage name="password" />
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Column>
                   <Label htmlFor="passwordConfirm">
                     Password Confirmation:
                   </Label>
-                  <Spacer height={8} />
+                  <Spacer $height={8} />
                   <Input
                     autoComplete="off"
                     onChange={handleChange}
@@ -175,13 +175,13 @@ export default function Signup(): JSX.Element {
                     type="password"
                     value={values.passwordConfirm}
                   />
-                  <Spacer height={4} />
+                  <Spacer $height={4} />
                   <ErrorWrapper>
                     <ErrorMessage name="passwordConfirm" />
                   </ErrorWrapper>
                 </Column>
               </Row>
-              <Spacer height={12} />
+              <Spacer $height={12} />
               <Row>
                 <Button
                   style={{ flex: '1' }}

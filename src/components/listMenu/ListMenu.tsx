@@ -1,15 +1,14 @@
-import { useSignal } from '@preact/signals-react';
 import { useQuery } from '@tanstack/react-query';
 
 import { fetchUserLists } from '../../api/lists.api';
-import { listsSignal } from '../../signals/list.signals';
-import { userContext } from '../../signals/user.signals';
+import { activeListSignal, listsSignal } from '../../signals/lists.signals';
+import { userContext } from '../../signals/users.signals';
+import { Spacer } from '../containers';
 import AddListItem from './addListItem';
 import ListItem from './listItem';
 import { Wrapper } from './ListMenu.styles';
 
 export default function ListMenu() {
-  const selectedListSignal = useSignal<string | null>(null);
   const { id: userId } = userContext.value;
 
   useQuery({
@@ -19,21 +18,14 @@ export default function ListMenu() {
 
   return (
     <Wrapper>
+      <h2 style={{ lineHeight: '38px' }}>your lists</h2>
+      <Spacer $height={20} />
       {listsSignal.value.map((list) => {
         return (
           <ListItem
-            handleClick={() => {
-              if (selectedListSignal.value === list.id) {
-                selectedListSignal.value = null;
-              } else {
-                selectedListSignal.value = list.id;
-              }
-            }}
+            listData={{ listId: list.id, listName: list.name }}
             key={list.id}
-            listName={list.name}
-            state={
-              selectedListSignal.value === list.id ? 'selected' : 'default'
-            }
+            state={activeListSignal.value === list.id ? 'selected' : 'default'}
           />
         );
       })}
