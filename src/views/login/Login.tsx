@@ -8,10 +8,10 @@ import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 
 import { logInUser } from '../../api';
+import { type UserLogin } from '../../api/types';
 import { Column, Row, Spacer } from '../../components/containers';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { userContext } from '../../signals/users.signals';
-import { type UserLogin } from '../../api/types';
 import { Wrapper } from './Login.styles';
 
 const LOGIN_SCHEMA = z.object({

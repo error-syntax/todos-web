@@ -9,10 +9,10 @@ import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 
 import { createUser } from '../../api';
+import { type CreateUserInput } from '../../api/types';
 import { Column, Row, Spacer } from '../../components/containers';
 import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
 import { userContext } from '../../signals/users.signals';
-import { type CreateUserInput } from '../../api/types';
 import { SignUpForm, Wrapper } from './Signup.styles';
 
 const SIGNUP_SCHEMA = z
