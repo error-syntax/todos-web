@@ -38,6 +38,10 @@ export default function AddListItem() {
       mutate(e.currentTarget.value);
       stateSignal.value = 'default';
     }
+
+    if (e.key === 'Escape') {
+      stateSignal.value = 'default';
+    }
   };
 
   useEffect(() => {
