@@ -3,11 +3,28 @@ import { useSignal } from '@preact/signals-react';
 import { type KeyboardEventHandler, type MouseEventHandler } from 'react';
 
 import { activeListSignal } from '../../../signals/lists.signals';
+import DropdownMenu from '../../dropdownMenu';
 import Icon from '../../icon';
 import { Input } from '../../inputs';
-import ListItemDropdown from '../listItemDropdown';
 import { Wrapper } from './ListItem.styles';
 import { type ListItemProps } from './ListItem.types';
+
+const items = [
+  {
+    key: 'list_delete',
+    label: 'Delete List',
+    handleClick: () => {
+      alert('Handle Deleting List');
+    },
+  },
+  {
+    key: 'list_update',
+    label: 'Update List',
+    handleClick: () => {
+      alert('Handle Updating List');
+    },
+  },
+];
 
 export default function ListItem({
   handleSubmit = () => {
@@ -39,12 +56,6 @@ export default function ListItem({
     }
   };
 
-  // const handleIconClick: IconProps['onClick'] = (e) => {
-  //   e.stopPropagation();
-
-  //   console.log('Open Menu');
-  // };
-
   return (
     <Wrapper
       onClick={handleClick}
@@ -55,7 +66,17 @@ export default function ListItem({
       {state !== 'editing' && (
         <>
           <p>{listNameSignal.value}</p>
-          <ListItemDropdown triggerEl={<Icon icon={faEllipsisH} />} />
+          <DropdownMenu
+            items={items}
+            trigger={(handleClick, ref) => (
+              <Icon
+                icon={faEllipsisH}
+                onClick={handleClick}
+                ref={ref}
+                tabIndex={0}
+              />
+            )}
+          />
         </>
       )}
       {state === 'editing' && (
