@@ -1,10 +1,10 @@
-import { type RefObject } from 'react';
+import { type List } from '../../../api/types';
 
-type ListItemProps = {
+interface ListItemProps {
+  active?: boolean;
+  editing?: boolean;
   handleSubmit?: React.KeyboardEventHandler<HTMLInputElement>;
-  inputRef?: RefObject<HTMLInputElement>;
-  listData: { listId: number; listName: string };
-  state?: 'default' | 'selected' | 'editing';
-} & React.HTMLProps<HTMLLIElement>;
+  list: Pick<List, 'id' | 'name' | 'archived'>;
+}
 
 export type { ListItemProps };

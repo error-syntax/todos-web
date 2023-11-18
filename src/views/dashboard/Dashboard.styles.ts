@@ -7,14 +7,18 @@ export const DashboardWrapper = styled(PageWrapper)(
   background-color: ${background};
 
   & > ${Column}:first-of-type {
-    border-right: 1px solid ${name === 'light' ? colors.white80 : colors.grey};
+    border-right: 1px solid ${
+      name === 'light' ? colors.white80 : colors.black80
+    };
     justify-content: flex-end;
     padding: 20px;
   }
 
   & > ${Column}:nth-of-type(2) {
     align-items: stretch;
-    border-right: 1px solid ${name === 'light' ? colors.white80 : colors.grey};
+    border-right: 1px solid ${
+      name === 'light' ? colors.white80 : colors.black80
+    };
     flex-basis: 350px;
   }
 

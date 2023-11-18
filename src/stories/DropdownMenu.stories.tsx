@@ -1,4 +1,3 @@
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { type Meta, type StoryObj } from '@storybook/react';
 
 import DropdownMenu from '../components/dropdownMenu';
@@ -20,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 export const Empty: Story = {
   args: {
     items: [],
-    trigger: <Icon icon={faEllipsisH} />,
+    triggerElRenderer: (props) => <Icon {...props} />,
   },
 };
 
@@ -42,7 +41,7 @@ export const WithItems: Story = {
         },
       },
     ],
-    trigger: <Icon icon={faEllipsisH} />,
+    triggerElRenderer: (props) => <Icon {...props} />,
   },
 };
 
@@ -60,6 +59,6 @@ export const WithHrefItems: Story = {
         label: 'Go to React Docs',
       },
     ],
-    trigger: <Icon icon={faEllipsisH} />,
+    triggerElRenderer: (props) => <Icon {...props} />,
   },
 };

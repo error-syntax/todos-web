@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { fetchUserLists } from '../../api/lists.api';
-import { activeListSignal, listsSignal } from '../../signals/lists.signals';
+import { listsSignal } from '../../signals/lists.signals';
 import { userContext } from '../../signals/users.signals';
 import { Spacer } from '../containers';
 import AddListItem from './addListItem';
@@ -21,13 +21,7 @@ export default function ListMenu() {
       <h2 style={{ lineHeight: '38px' }}>your lists</h2>
       <Spacer $height={20} />
       {listsSignal.value.map((list) => {
-        return (
-          <ListItem
-            listData={{ listId: list.id, listName: list.name }}
-            key={list.id}
-            state={activeListSignal.value === list.id ? 'selected' : 'default'}
-          />
-        );
+        return <ListItem key={list.id} list={list} />;
       })}
       <AddListItem />
     </Wrapper>

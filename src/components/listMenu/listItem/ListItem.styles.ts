@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 
-import { type ListItemProps } from './ListItem.types';
-
-export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(
-  ({ state, theme: { listItem, shadow } }) => `
+export const Wrapper = styled.li<{
+  $active: boolean;
+  $editing: boolean;
+}>(
+  ({ $active, $editing, theme: { listItem, shadow } }) => `
   align-items: center;
   background-color: ${listItem.background};
   border-radius: 4px;
-  box-shadow: ${state === 'selected' ? shadow : 'none'};
+  box-shadow: ${$active ? shadow : 'none'};
   cursor: pointer;
   display: inline-flex;
   flex-grow: 1;
   font-size: 16px;
   height: 50px;
-  justify-content: ${state === 'editing' ? 'stretch' : 'space-between'};
+  justify-content: ${$editing ? 'stretch' : 'space-between'};
   line-height: 20px;
   min-width: 250px;
   padding: 8px 12px; 
@@ -31,7 +32,7 @@ export const Wrapper = styled.li<Pick<ListItemProps, 'state'>>(
   }
 
   ${
-    state === 'selected' &&
+    $active &&
     `
       background-color: ${listItem.hover.background};
       border: 1px solid ${listItem.hover.border};

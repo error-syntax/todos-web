@@ -13,13 +13,18 @@ type Story = StoryObj<typeof meta>;
 
 export const natural: Story = {
   args: {
-    listName: 'Default List state',
+    handleSubmit: () => {
+      console.info('Not Implemented.');
+    },
+    list: { name: 'List Name', id: 0, archived: false },
   },
 };
 
 export const selected: Story = {
   args: {
-    listName: 'Selected List',
-    state: 'selected',
+    handleSubmit: () => {
+      console.info('Not Implemented.');
+    },
+    list: { name: 'List Name', id: -1, archived: false },
   },
 };

@@ -12,6 +12,7 @@ export const MenuItems = styled.ul(
     bottom: -4px;
     display: inline-flex;
     flex-direction: column;
+    min-width: 150px;
     position: absolute;
     right: 0;
     transform: translateY(100%);
@@ -28,6 +29,7 @@ export const MenuItem = styled.button(
   ({ theme: { listItem } }) => `
     all: unset;
     background-color: ${listItem.background};
+    color: ${listItem.text};
     flex-grow: 1;
     padding: 8px 12px;
 

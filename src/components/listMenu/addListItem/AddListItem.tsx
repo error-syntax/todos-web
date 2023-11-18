@@ -1,18 +1,16 @@
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSignal } from '@preact/signals-react';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { createList } from '../../../api';
 import { userContext } from '../../../signals/users.signals';
 import { Spacer } from '../../containers';
-import ListItem from '../listItem';
-import { type ListItemProps } from '../listItem/ListItem.types';
+import { Input } from '../../inputs';
 import { AddListButton } from './AddListItem.styles';
 
 export default function AddListItem() {
-  const stateSignal = useSignal<ListItemProps['state']>('default');
+  const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate } = useMutation({
     mutationFn: async (name: string) =>
@@ -20,27 +18,28 @@ export default function AddListItem() {
   });
 
   const handleClick: React.MouseEventHandler<HTMLLIElement> = () => {
-    stateSignal.value = 'editing';
+    setEditing(true);
   };
 
   const handleKeyPress: React.KeyboardEventHandler<HTMLLIElement> = (e) => {
     e.stopPropagation();
 
     if (e.key === 'Enter') {
-      stateSignal.value = 'editing';
+      setEditing(true);
     }
   };
 
   const handleSubmit: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     e.stopPropagation();
-
     if (e.key === 'Enter') {
+      if (e.currentTarget.value.trim() === '')
+        throw new Error("List name can't be empty");
+
       mutate(e.currentTarget.value);
-      stateSignal.value = 'default';
     }
 
     if (e.key === 'Escape') {
-      stateSignal.value = 'default';
+      setEditing(false);
     }
   };
 
@@ -48,30 +47,19 @@ export default function AddListItem() {
     if (inputRef.current != null) {
       inputRef.current.focus();
     }
-  }, [stateSignal.value, inputRef.current]);
+  }, [editing, inputRef.current]);
 
   return (
-    <>
-      {stateSignal.value === 'default' ? (
-        <AddListButton
-          onClick={handleClick}
-          onKeyUp={handleKeyPress}
-          tabIndex={0}
-        >
-          <p>
-            <FontAwesomeIcon icon={faCirclePlus} />
-            <Spacer $width={8} />
-            Create a New List
-          </p>
-        </AddListButton>
+    <AddListButton onClick={handleClick} onKeyUp={handleKeyPress} tabIndex={0}>
+      {!editing ? (
+        <p>
+          <FontAwesomeIcon icon={faCirclePlus} />
+          <Spacer $width={8} />
+          Create a New List
+        </p>
       ) : (
-        <ListItem
-          handleSubmit={handleSubmit}
-          inputRef={inputRef}
-          listName=""
-          state={stateSignal.value}
-        />
+        <Input onKeyDown={handleSubmit} ref={inputRef} type="text" />
       )}
-    </>
+    </AddListButton>
   );
 }
