@@ -14,6 +14,8 @@ export const IconWrapper = styled.button(
 
     align-items: center;
     border-radius: 50%;
+    color: ${icon.text};
+    cursor: pointer;
     display: inline-flex;
     height: 36px;
     justify-content: center;
