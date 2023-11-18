@@ -1,3 +1,8 @@
+import {
+  faArchive,
+  faPencil,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
 import {
   type KeyboardEventHandler,
@@ -10,13 +15,13 @@ import {
 import { deleteList, updateList } from '../../../api/lists.api';
 import { activeListSignal, listsSignal } from '../../../signals/lists.signals';
 import DropdownMenu from '../../dropdownMenu';
+import { type DropdownMenuItem } from '../../dropdownMenu/DropdownMenu.types';
 import Icon from '../../icon';
 import { Input } from '../../inputs';
 import { Wrapper } from './ListItem.styles';
 import { type ListItemProps } from './ListItem.types';
 
 export default function ListItem({ list }: ListItemProps) {
-  const listNameRef = useRef(list.name);
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
 
@@ -38,7 +43,18 @@ export default function ListItem({ list }: ListItemProps) {
       await updateList({ id: list.id, name: listName }),
     mutationKey: ['update', list.id],
     onSuccess: ({ data }) => {
-      listNameRef.current = data[0].name;
+      const updatedList = listsSignal.value.map((list) => {
+        if (list.id === data[0].id) {
+          return {
+            ...list,
+            ...data[0],
+          };
+        }
+
+        return list;
+      });
+
+      listsSignal.value = updatedList;
       setEditing(false);
     },
   });
@@ -69,20 +85,30 @@ export default function ListItem({ list }: ListItemProps) {
     }
   };
 
-  const items = [
+  const items: DropdownMenuItem[] = [
     {
-      key: 'list_delete',
-      label: 'Delete List',
+      handleClick: () => {
+        alert('Archiving list');
+      },
+      icon: faArchive,
+      key: 'list_archive',
+      label: 'Archive List',
+    },
+    {
       handleClick: () => {
         deleteMutation();
       },
+      icon: faTrash,
+      key: 'list_delete',
+      label: 'Delete List',
     },
     {
-      key: 'list_update',
-      label: 'Update List',
       handleClick: () => {
         setEditing(true);
       },
+      icon: faPencil,
+      key: 'list_update',
+      label: 'Update List',
     },
   ];
 
@@ -104,7 +130,7 @@ export default function ListItem({ list }: ListItemProps) {
     >
       {!editing ? (
         <>
-          <p>{listNameRef.current}</p>
+          <p>{list.name}</p>
           <DropdownMenu
             items={items}
             triggerElRenderer={(props) => <Icon {...props} />}
@@ -113,7 +139,7 @@ export default function ListItem({ list }: ListItemProps) {
       ) : (
         <Input
           aria-label="Provide your new list's name"
-          defaultValue={listNameRef.current}
+          defaultValue={list.name}
           onKeyDown={handleSubmit}
           ref={inputRef}
         />
