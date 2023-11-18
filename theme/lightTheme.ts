@@ -75,6 +75,10 @@ const lightTheme = {
       outline: colors.white70,
     },
   },
+  menu: {
+    background: colors.white70,
+    border: colors.black80,
+  },
   page: {
     background: colors.white,
     text: colors.black,
