@@ -14,7 +14,10 @@ export default function AddListItem() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate } = useMutation({
     mutationFn: async (name: string) =>
-      await createList({ name, ownerId: userContext.value.id }),
+      await createList({ name, ownerId: userContext.value.id! }),
+    onSettled: () => {
+      setEditing(false);
+    },
   });
 
   const handleClick: React.MouseEventHandler<HTMLLIElement> = () => {

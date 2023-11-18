@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.ul`
   display: inline-flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: normal;
   overflow: scroll;
