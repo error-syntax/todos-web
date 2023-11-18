@@ -1,9 +1,11 @@
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSignal } from '@preact/signals-react';
 import { type ToPathOption, useNavigate } from '@tanstack/react-router';
 import { type KeyboardEvent, type MouseEvent, useRef } from 'react';
 
 import { activeListData } from '../../signals/lists.signals';
+import { Spacer } from '../containers';
 import { Menu, MenuItem, MenuItems } from './DropdownMenu.styles';
 import { type DropdownMenuProps } from './DropdownMenu.types';
 
@@ -49,6 +51,7 @@ export default function DropdownMenu({
                 console.warn('Not Implemented.');
               },
               href,
+              icon,
               key,
               label,
             } = item;
@@ -73,6 +76,12 @@ export default function DropdownMenu({
                   }}
                   tabIndex={0}
                 >
+                  {icon && (
+                    <>
+                      <FontAwesomeIcon icon={icon} />
+                      <Spacer $width={8} />
+                    </>
+                  )}
                   <p>{label}</p>
                 </MenuItem>
               </li>

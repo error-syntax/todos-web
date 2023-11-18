@@ -28,10 +28,17 @@ export const MenuItems = styled.ul(
 export const MenuItem = styled.button(
   ({ theme: { listItem } }) => `
     all: unset;
+    align-items: center;
     background-color: ${listItem.background};
     color: ${listItem.text};
+    display: inline-flex;
     flex-grow: 1;
+    line-height: 20px;
     padding: 8px 12px;
+
+    & svg {
+      width: 16px;
+    }
 
     &:hover {
       background-color: ${listItem.hover.background};

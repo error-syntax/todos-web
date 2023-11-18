@@ -7,6 +7,7 @@ interface DropdownMenuItem {
   id?: string;
   key: string;
   label: string;
+  icon?: FontAwesomeIconProps['icon'];
 }
 
 interface DropdownMenuProps {
@@ -20,4 +21,4 @@ interface DropdownMenuProps {
   ) => JSX.Element;
 }
 
-export type { DropdownMenuProps };
+export type { DropdownMenuItem, DropdownMenuProps };
