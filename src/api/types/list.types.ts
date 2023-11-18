@@ -1,11 +1,24 @@
 interface List {
+  archived: boolean;
   id: number;
   name: string;
   ownerId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-type CreateListInput = Omit<List, 'id'>;
+type CreateListInput = Pick<List, 'name' | 'ownerId'>;
 
-type UpdateListInput = Partial<List>;
+type CreateListResponse = List[];
 
-export type { CreateListInput, List, UpdateListInput };
+type UpdateListInput = Pick<List, 'id' | 'name'>;
+
+type UpdateListResponse = Array<Pick<List, 'id' | 'name' | 'archived'>>;
+
+export type {
+  CreateListInput,
+  CreateListResponse,
+  List,
+  UpdateListInput,
+  UpdateListResponse,
+};
