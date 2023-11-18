@@ -1,14 +1,16 @@
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { useSignal } from '@preact/signals-react';
 import { type ToPathOption, useNavigate } from '@tanstack/react-router';
 import { type KeyboardEvent, type MouseEvent, useRef } from 'react';
 
+import { activeListData } from '../../signals/lists.signals';
 import { Menu, MenuItem, MenuItems } from './DropdownMenu.styles';
 import { type DropdownMenuProps } from './DropdownMenu.types';
 
-export default function DropdownMenu<T>({
+export default function DropdownMenu({
   items,
-  trigger,
-}: DropdownMenuProps<T>) {
+  triggerElRenderer,
+}: DropdownMenuProps) {
   const openSignal = useSignal(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate({
@@ -16,7 +18,7 @@ export default function DropdownMenu<T>({
   });
 
   const handleToggleMenu = (
-    e: MouseEvent<T | HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
+    e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
   ) => {
     e.stopPropagation();
 
@@ -24,8 +26,21 @@ export default function DropdownMenu<T>({
   };
 
   return (
-    <Menu>
-      {trigger(handleToggleMenu, buttonRef)}
+    <Menu
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          openSignal.value = false;
+        }
+      }}
+    >
+      {triggerElRenderer({
+        'aria-expanded': openSignal.value,
+        'aria-label': `Toggle List Options Menu for: ${activeListData.value?.name}`,
+        icon: faEllipsisH,
+        onClick: handleToggleMenu,
+        ref: buttonRef,
+        tabIndex: 0,
+      })}
       {openSignal.value ? (
         <MenuItems>
           {items.map((item) => {
