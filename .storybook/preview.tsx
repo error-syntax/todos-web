@@ -1,8 +1,10 @@
 import type { Preview } from '@storybook/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { theme } from '../theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RootRoute, Router, RouterProvider } from '@tanstack/react-router';
 
 export const globalTypes = {
   theme: {
@@ -17,7 +19,6 @@ export const globalTypes = {
 };
 
 const Wrapper = styled.span`
-  display: inline-flex;
   height: 100vh;
   width: 100vw;
 
@@ -33,16 +34,27 @@ const Wrapper = styled.span`
 `
 
 const withThemeProvider = (Story, context) => {
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={theme(context.globals.theme)}>
-      <Wrapper>
-        <Story {...context} />
-      </Wrapper>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme(context.globals.theme)}>
+        <Wrapper>
+          <Story {...context} />
+        </Wrapper>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
-export const decorators = [withThemeProvider];
+const withRouteContext = (Story, context) => {
+  const rootRoute = new RootRoute({ component: Story });
+  const router = new Router({ routeTree: rootRoute }) 
+
+  return <RouterProvider router={router} />
+}
+
+export const decorators = [withThemeProvider, withRouteContext];
 
 const preview: Preview = {
   parameters: {
