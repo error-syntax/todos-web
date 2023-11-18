@@ -4,18 +4,20 @@ import { type ForwardedRef, forwardRef } from 'react';
 import { IconWrapper } from './Icon.styles';
 import { type IconProps } from './Icon.types';
 
-function Icon<T>(
+function Icon(
   {
     icon,
     onClick,
     onKeyDown,
     size,
     tabIndex = -1,
-  }: IconProps<HTMLButtonElement, T>,
+    ...otherProps
+  }: IconProps<HTMLButtonElement>,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
   return (
     <IconWrapper
+      {...otherProps}
       onClick={onClick}
       onKeyDown={onKeyDown}
       ref={ref}
