@@ -7,9 +7,10 @@ import {
   useState,
 } from 'react';
 
+import { Input } from '@/components/ui/input';
+
 import { updateList } from '../../../api/lists.api';
 import { activeListSignal, listsSignal } from '../../../signals/lists.signals';
-import { Input } from '../../inputs';
 import ArchiveItemDialog from '../archiveItemDialog';
 import DeleteItemDialog from '../deleteItemDialog';
 import DropdownMenu from '../dropdownMenu';

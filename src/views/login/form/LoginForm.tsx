@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { logInUser } from '@/api';
-import { Input } from '@/components/inputs';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { userContext } from '@/signals/users.signals';
 
 const LOGIN_SCHEMA = z.object({

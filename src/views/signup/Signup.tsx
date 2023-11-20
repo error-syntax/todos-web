@@ -1,200 +1,96 @@
-import { useMutation } from '@tanstack/react-query';
-import {
-  type ToPathOption,
-  useNavigate,
-  useRouter,
-} from '@tanstack/react-router';
-import { ErrorMessage, Formik, type FormikConfig } from 'formik';
-import { z } from 'zod';
-import { toFormikValidate } from 'zod-formik-adapter';
+import { Link } from '@tanstack/react-router';
 
-import { createUser } from '../../api';
-import { type CreateUserInput } from '../../api/types';
-import { Column, Row, Spacer } from '../../components/containers';
-import { Button, ErrorWrapper, Input, Label } from '../../components/inputs';
-import { userContext } from '../../signals/users.signals';
-import { SignUpForm, Wrapper } from './Signup.styles';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const SIGNUP_SCHEMA = z
-  .object({
-    email: z.string().email('Invalid Email.'),
-    firstName: z.string().max(50),
-    lastName: z.string().max(50),
-    password: z
-      .string()
-      .min(8, 'Your password must be at least 8 characters')
-      .max(50, 'Your password cannot be longer than 50 characters'),
-    passwordConfirm: z
-      .string()
-      .min(8, 'Your password must be at least 8 characters')
-      .max(50, 'Your password cannot be longer than 50 characters'),
-  })
-  .required()
-  .superRefine(({ password, passwordConfirm }, ctx) => {
-    if (password !== passwordConfirm) {
-      ctx.addIssue({
-        code: 'custom',
-        message: `Passwords don't match.`,
-        path: ['passwordConfirm'],
-      });
-    }
-  });
+import SignUpForm from './form';
 
 export default function Signup(): JSX.Element {
-  const DEFAULT_VALUES = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    password: '',
-    passwordConfirm: '',
-  };
-  const navigate = useNavigate({ from: '/signup' });
-  const {
-    state: {
-      location: { search },
-    },
-  } = useRouter();
-  const redirectURL: ToPathOption =
-    (search as Partial<{ redirect: string }>).redirect ?? '/dashboard';
-
-  const { mutate } = useMutation({
-    mutationFn: async (values: CreateUserInput) => await createUser(values),
-    onSuccess: (res) => {
-      userContext.value = res;
-      void navigate({ to: redirectURL });
-    },
-  });
-
-  const handleSubmit: FormikConfig<CreateUserInput>['onSubmit'] = (values) => {
-    mutate(values);
-  };
-
   return (
-    <Wrapper>
-      <Column>Image Here</Column>
-      <Column>
-        <h1>Sign Up</h1>
-        <Spacer $height={40} />
-        <Formik
-          initialValues={DEFAULT_VALUES}
-          onSubmit={handleSubmit}
-          validate={toFormikValidate(SIGNUP_SCHEMA)}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <SignUpForm onSubmit={handleSubmit}>
-              <Row>
-                <Column>
-                  <Label htmlFor="firstName">First Name:</Label>
-                  <Spacer $height={8} />
-                  <Input
-                    autoComplete="off"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="firstName"
-                    type="text"
-                    value={values.firstName}
-                  />
-                  <Spacer $height={4} />
-                  <ErrorWrapper>
-                    <ErrorMessage name="firstName" />
-                  </ErrorWrapper>
-                </Column>
-                <Column>
-                  <Label htmlFor="lastName">Last Name:</Label>
-                  <Spacer $height={8} />
-                  <Input
-                    autoComplete="off"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="lastName"
-                    type="text"
-                    value={values.lastName}
-                  />
-                  <Spacer $height={4} />
-                  <ErrorWrapper>
-                    <ErrorMessage name="lastName" />
-                  </ErrorWrapper>
-                </Column>
-              </Row>
-              <Spacer $height={12} />
-              <Row>
-                <Column>
-                  <Label htmlFor="email">Email:</Label>
-                  <Spacer $height={8} />
-                  <Input
-                    autoComplete="off"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="email"
-                    type="email"
-                    value={values.email}
-                  />
-                  <Spacer $height={4} />
-                  <ErrorWrapper>
-                    <ErrorMessage name="email" />
-                  </ErrorWrapper>
-                </Column>
-              </Row>
-              <Spacer $height={12} />
-              <Row>
-                <Column>
-                  <Label htmlFor="password">Password:</Label>
-                  <Spacer $height={8} />
-                  <Input
-                    autoComplete="off"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="password"
-                    type="password"
-                    value={values.password}
-                  />
-                  <Spacer $height={4} />
-                  <ErrorWrapper>
-                    <ErrorMessage name="password" />
-                  </ErrorWrapper>
-                </Column>
-              </Row>
-              <Spacer $height={12} />
-              <Row>
-                <Column>
-                  <Label htmlFor="passwordConfirm">
-                    Password Confirmation:
-                  </Label>
-                  <Spacer $height={8} />
-                  <Input
-                    autoComplete="off"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name="passwordConfirm"
-                    type="password"
-                    value={values.passwordConfirm}
-                  />
-                  <Spacer $height={4} />
-                  <ErrorWrapper>
-                    <ErrorMessage name="passwordConfirm" />
-                  </ErrorWrapper>
-                </Column>
-              </Row>
-              <Spacer $height={12} />
-              <Row>
-                <Button
-                  style={{ flex: '1' }}
-                  disabled={isSubmitting}
-                  type="submit"
-                >
-                  Sign Up!
-                </Button>
-              </Row>
-            </SignUpForm>
+    <>
+      <div className="md:hidden lg:grid-cols-2">
+        <img
+          src="https://place-hold.it/300x500"
+          width={1280}
+          height={843}
+          alt="Authentication"
+          className="block dark:hidden"
+        />
+        <img
+          src="https://place-hold.it/300x500"
+          width={1280}
+          height={843}
+          alt="Authentication"
+          className="hidden dark:block"
+        />
+      </div>
+      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <Link
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'absolute right-4 top-4 md:right-8 md:top-8',
           )}
-        </Formik>
-      </Column>
-    </Wrapper>
+          to="/login"
+        >
+          Login
+        </Link>
+        <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+          <div className="absolute inset-0 bg-zinc-900" />
+          <div className="relative z-20 flex items-center text-lg font-medium">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="mr-2 h-6 w-6"
+            >
+              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+            </svg>
+            Todone
+          </div>
+          <div className="relative z-20 mt-auto">
+            <blockquote className="space-y-2">
+              <p className="text-lg">
+                &ldquo;This library has saved me countless hours of work and
+                helped me deliver stunning designs to my clients faster than
+                ever before.&rdquo;
+              </p>
+              <footer className="text-sm">Sofia Davis</footer>
+            </blockquote>
+          </div>
+        </div>
+        <div className="lg:p-8">
+          <div className="mx-auto flex w-full flex-col justify-center space-y-6 lg:w-[450px] sm:w-[350px]">
+            <div className="flex flex-col space-y-2 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your credentials to login.
+              </p>
+            </div>
+            <SignUpForm />
+            <p className="px-8 text-center text-sm text-muted-foreground">
+              By clicking continue, you agree to our{' '}
+              <Link
+                href="/terms"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link
+                href="/privacy"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

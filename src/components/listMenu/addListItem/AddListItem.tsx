@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
+import { Input } from '@/components/ui/input';
+
 import { createList } from '../../../api';
 import { userContext } from '../../../signals/users.signals';
 import { Spacer } from '../../containers';
-import { Input } from '../../inputs';
 import { AddListButton } from './AddListItem.styles';
 
 export default function AddListItem() {
