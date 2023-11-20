@@ -8,7 +8,6 @@ export const Wrapper = styled.main`
   max-height: 100vh;
 
   & > ${Column}:first-of-type {
-    background: ${({ theme }) => theme.colors.black};
     flex: 2;
   }
 

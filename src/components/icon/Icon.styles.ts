@@ -1,7 +1,10 @@
+import colors from '@theme/colors';
 import styled from 'styled-components';
 
-export const IconWrapper = styled.button(
-  ({ theme: { icon } }) => `
+import { type ContainerProps } from '../containers/containers.types';
+
+export const IconWrapper = styled.li<{ $theme: ContainerProps['$theme'] }>(
+  ({ $theme }) => `
     // resetting button defaults
     background-color: transparent;
     border: none;
@@ -14,25 +17,17 @@ export const IconWrapper = styled.button(
 
     align-items: center;
     border-radius: 50%;
-    color: ${icon.text};
     cursor: pointer;
     display: inline-flex;
     height: 36px;
     justify-content: center;
     width: 36px;
 
-    &:hover {
-      background: ${icon.hover.background};
-      border: 1px solid ${icon.hover.border};
-      color: ${icon.hover.text};
-      outline: 1px solid ${icon.hover.outline};
-    }
-
+    &:hover,
     &:focus {
-      background: ${icon.focus.background};
-      border: 1px solid ${icon.focus.border};
-      color: ${icon.focus.text};
-      outline: 1px solid ${icon.focus.outline};
+      background: ${$theme === 'light' ? colors.blue10 : colors.blue20};
+      border: 1px solid ${colors.blue60};
+      outline: 1px solid ${colors.blue15};
     }
   `,
 );

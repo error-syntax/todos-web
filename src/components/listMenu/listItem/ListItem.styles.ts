@@ -1,27 +1,30 @@
+import colors from '@theme/colors';
 import styled from 'styled-components';
+
+import { type ContainerProps } from '@/components/containers/containers.types';
 
 export const Wrapper = styled.button<{
   $active: boolean;
   $editing: boolean;
+  $theme: ContainerProps['$theme'];
 }>(
-  ({ $active, $editing, theme: { listItem, shadow } }) => `
+  ({ $active, $theme }) => `
     align-items: center;
-    background-color: ${listItem.background};
+    background-color: transparent;
     border-radius: 4px;
-    box-shadow: ${$active ? shadow : 'none'};
     cursor: pointer;
     display: inline-flex;
     flex-grow: 1;
     font-size: 16px;
     height: 50px;
-    justify-content: ${$editing ? 'stretch' : 'space-between'};
+    justify-content: space-between;
     line-height: 20px;
     min-width: 250px;
     padding: 8px 12px; 
     position: relative;
 
     & p {
-      color: ${listItem.text};
+      color: ${$theme === 'light' ? colors.black90 : colors.white90};
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -31,19 +34,6 @@ export const Wrapper = styled.button<{
       flex-grow: 1;
     }
 
-    ${
-      $active &&
-      `
-        background-color: ${listItem.hover.background};
-        border: 1px solid ${listItem.hover.border};
-        outline: 1px solid ${listItem.hover.outline};
-
-        & p {
-          color: ${listItem.hover.text};
-        }
-      `
-    }
-
     & > svg {
       position: absolute;
       right: 12px;
@@ -51,25 +41,34 @@ export const Wrapper = styled.button<{
       transform: translateY(-50%);
     }
 
-
-    &:hover {
-      background-color: ${listItem.hover.background};
-      border: ${listItem.hover.border};
-      outline: 1px solid ${listItem.hover.outline};
+    &:hover,
+    &:focus {
+      background-color: ${$theme === 'light' ? colors.white90 : colors.black90};
+      border: ${$theme === 'light' ? colors.white70 : colors.black70};
+      outline: 1px solid ${
+        $theme === 'light' ? colors.white70 : colors.black70
+      };
 
       & p {
-        color: ${listItem.hover.text};
+        color: ${$theme === 'light' ? colors.black90 : colors.white90};
       }
     }
 
-    &:focus {
-      background-color: ${listItem.focus.background};
-      border: ${listItem.focus.border};
-      outline: 1px solid ${listItem.focus.outline};
+    ${
+      $active &&
+      `
+        background-color: ${
+          $theme === 'light' ? colors.white80 : colors.black80
+        };
+        border: ${$theme === 'light' ? colors.white70 : colors.black70};
+        outline: 1px solid ${
+          $theme === 'light' ? colors.white70 : colors.black70
+        };
 
-      & p {
-        color: ${listItem.focus.text};
-      }
+        & p {
+          color: ${$theme === 'light' ? colors.black90 : colors.white90};
+        }
+      `
     }
   `,
 );

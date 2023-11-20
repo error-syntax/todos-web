@@ -1,21 +1,20 @@
 import axios from 'axios';
 
-import { tasksSignal } from '../signals/tasks.signals';
 import {
   type CreateTaskInput,
   type CreateTaskResponse,
+  type Task,
 } from './types/task.types';
 
 export const fetchTasksByListId = async (listId: number | null) => {
   if (!listId) throw new Error('Invalid List');
 
   const response = await axios
-    .get(`${import.meta.env.VITE_API_URL}/tasks/${listId}`, {
+    .get<{ tasks: Task[] }>(`${import.meta.env.VITE_API_URL}/tasks/${listId}`, {
       withCredentials: true,
     })
     .then((res) => {
-      tasksSignal.value = res.data;
-      return res;
+      return res.data.tasks;
     })
     .catch((err) => {
       throw new Error(err);

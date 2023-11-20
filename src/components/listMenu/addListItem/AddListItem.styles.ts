@@ -1,9 +1,12 @@
+import colors from '@theme/colors';
 import styled from 'styled-components';
 
-export const AddListButton = styled.li(
-  ({ theme: { listItem } }) => `
+import { type ContainerProps } from '@/components/containers/containers.types';
+
+export const AddListButton = styled.li<ContainerProps>(
+  ({ $theme }) => `
   align-items: center;
-  background-color: ${listItem.background};
+  background-color: transparent;
   border-radius: 4px;
   cursor: pointer;
   display: inline-flex;
@@ -16,7 +19,7 @@ export const AddListButton = styled.li(
   position: relative;
 
   & p {
-    color: ${listItem.text};
+    color: ${$theme === 'light' ? colors.black90 : colors.white90};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -33,24 +36,14 @@ export const AddListButton = styled.li(
     transform: translateY(-50%);
   }
 
-
-  &:hover {
-    background-color: ${listItem.hover.background};
-    border: ${listItem.hover.border};
-    outline: 1px solid ${listItem.hover.outline};
-
-    & p {
-      color: ${listItem.hover.text};
-    }
-  }
-
+  &:hover,
   &:focus {
-    background-color: ${listItem.focus.background};
-    border: ${listItem.focus.border};
-    outline: 1px solid ${listItem.focus.outline};
+    background-color: ${$theme === 'light' ? colors.white90 : colors.black90};
+    border: ${$theme === 'light' ? colors.white70 : colors.black70};
+    outline: 1px solid ${$theme === 'light' ? colors.white70 : colors.black70};
 
     & p {
-      color: ${listItem.focus.text};
+      color: ${$theme === 'light' ? colors.black90 : colors.white90};
     }
   }
 `,

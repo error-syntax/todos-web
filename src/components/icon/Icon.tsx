@@ -12,8 +12,8 @@ function Icon(
     size,
     tabIndex = -1,
     ...otherProps
-  }: IconProps<HTMLButtonElement>,
-  ref: ForwardedRef<HTMLButtonElement>,
+  }: IconProps<HTMLLIElement>,
+  ref: ForwardedRef<HTMLLIElement>,
 ) {
   return (
     <IconWrapper

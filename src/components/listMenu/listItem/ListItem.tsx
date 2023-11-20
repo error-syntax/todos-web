@@ -86,7 +86,7 @@ export default function ListItem({ list }: ListItemProps) {
       >
         {!editing ? (
           <>
-            <p>{list.name}</p>
+            {list.name}
             <DropdownMenu
               handleClickArchive={function (): void {
                 setWhichDialogOpen('archive');

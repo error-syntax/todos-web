@@ -1,13 +1,10 @@
+import colors from '@theme/colors';
 import styled from 'styled-components';
 
 import { Column, PageWrapper } from '../../components/containers';
 
-export const DashboardWrapper = styled(PageWrapper)(({
-  $theme,
-  theme: { colors },
-}) => {
-  console.log($theme);
-  return `
+export const DashboardWrapper = styled(PageWrapper)(
+  ({ $theme }) => `
   background-color: ${$theme === 'light' ? colors.white : colors.black};
 
   & > ${Column}:first-of-type {
@@ -34,5 +31,5 @@ export const DashboardWrapper = styled(PageWrapper)(({
       justify-content: space-between;
     }
   }
-`;
-});
+`,
+);

@@ -8,15 +8,28 @@ interface Task {
   updatedAt: string | Date;
 }
 
+type TaskResponse = Pick<Task, 'completed' | 'content' | 'id' | 'dueDate'>;
+
 type CreateTaskInput = Partial<
   Pick<Task, 'completed' | 'content' | 'dueDate' | 'listId'>
 >;
 
-type CreateTaskResponse = Pick<
+type CreateTaskResponse = TaskResponse;
+
+type UpdateTaskInput = Pick<
   Task,
-  'completed' | 'content' | 'dueDate' | 'id'
+  'completed' | 'content' | 'dueDate' | 'listId' | 'id'
 >;
 
-type UpdateTaskInput = Partial<Task>;
+interface UpdateTaskResponse {
+  numOfAffectedrows: number;
+  updatedTasks: TaskResponse[];
+}
 
-export type { CreateTaskInput, CreateTaskResponse, Task, UpdateTaskInput };
+export type {
+  CreateTaskInput,
+  CreateTaskResponse,
+  Task,
+  UpdateTaskInput,
+  UpdateTaskResponse,
+};

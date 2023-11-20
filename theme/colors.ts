@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   black: '#0a0e15',
   black90: '#212631',
   black80: '#373f4e',
@@ -20,3 +20,5 @@ export const colors = {
   white70: '#d1d6e0',
   white60: '#bfc6d4',
 } as const;
+
+export default colors;

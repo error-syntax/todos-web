@@ -1,11 +1,11 @@
+import colors from '@theme/colors';
 import styled from 'styled-components';
 
 import { type ContainerProps } from './containers.types';
 
 const PageWrapper = styled.main<ContainerProps>(
-  ({ $padding = 0, theme }) => `
-  background-color: ${theme.page.background};
-  color: ${theme.page.text};
+  ({ $theme, $padding = 0 }) => `
+  background-color: ${$theme === 'light' ? colors.white : colors.black};
   display: flex;
   height: 100vh;
   max-height: 100vh;
