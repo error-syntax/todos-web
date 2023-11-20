@@ -2,13 +2,17 @@ import styled from 'styled-components';
 
 import { Column, PageWrapper } from '../../components/containers';
 
-export const DashboardWrapper = styled(PageWrapper)(
-  ({ theme: { background, colors, name } }) => `
-  background-color: ${background};
+export const DashboardWrapper = styled(PageWrapper)(({
+  $theme,
+  theme: { colors },
+}) => {
+  console.log($theme);
+  return `
+  background-color: ${$theme === 'light' ? colors.white : colors.black};
 
   & > ${Column}:first-of-type {
     border-right: 1px solid ${
-      name === 'light' ? colors.white80 : colors.black80
+      $theme === 'light' ? colors.white80 : colors.black80
     };
     justify-content: flex-end;
     padding: 20px;
@@ -17,7 +21,7 @@ export const DashboardWrapper = styled(PageWrapper)(
   & > ${Column}:nth-of-type(2) {
     align-items: stretch;
     border-right: 1px solid ${
-      name === 'light' ? colors.white80 : colors.black80
+      $theme === 'light' ? colors.white80 : colors.black80
     };
     flex-basis: 350px;
   }
@@ -30,5 +34,5 @@ export const DashboardWrapper = styled(PageWrapper)(
       justify-content: space-between;
     }
   }
-`,
-);
+`;
+});

@@ -1,5 +1,5 @@
-import lightTheme from './lightTheme';
 import darkTheme from './darkTheme';
+import lightTheme from './lightTheme';
 
 export const theme = (theme: 'light' | 'dark') => {
   switch (theme) {

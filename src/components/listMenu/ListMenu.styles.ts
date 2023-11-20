@@ -9,6 +9,7 @@ export const Wrapper = styled.ul`
   padding: 20px 12px;
 
   & > li {
+    display: inline-flex;
     flex-grow: 0;
     flex-shrink: 0;
   }
