@@ -11,7 +11,7 @@ import { userContext } from '@/signals/users.signals';
 
 import { Column, Row, Spacer } from '../../components/containers';
 import ListMenu from '../../components/listMenu';
-import { activeListData } from '../../signals/lists.signals';
+import { activeListData, activeListSignal } from '../../signals/lists.signals';
 import { DashboardWrapper } from './Dashboard.styles';
 
 export default function Dashboard() {
@@ -34,11 +34,13 @@ export default function Dashboard() {
         <Column>
           <Row id="list_header_row">
             <h2>{activeListData.value?.name}</h2>
-            <Button>
-              <FontAwesomeIcon icon={faPlus} size="lg" />
-              <Spacer $width={8} />
-              New Task
-            </Button>
+            {activeListSignal.value && (
+              <Button>
+                <FontAwesomeIcon icon={faPlus} size="lg" />
+                <Spacer $width={8} />
+                New Task
+              </Button>
+            )}
           </Row>
           <Separator className="my-4" />
           <TaskTable />

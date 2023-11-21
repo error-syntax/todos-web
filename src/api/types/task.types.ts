@@ -2,7 +2,7 @@ interface Task {
   id: string;
   completed: boolean;
   content: string;
-  dueDate: string | null;
+  dueDate?: string | null;
   listId: string;
   createdAt: string | Date;
   updatedAt: string | Date;

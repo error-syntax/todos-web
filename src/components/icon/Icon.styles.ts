@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { type ContainerProps } from '../containers/containers.types';
 
-export const IconWrapper = styled.li<{ $theme: ContainerProps['$theme'] }>(
+export const IconWrapper = styled.li<{ $theme?: ContainerProps['$theme'] }>(
   ({ $theme }) => `
     // resetting button defaults
     background-color: transparent;
@@ -27,6 +27,7 @@ export const IconWrapper = styled.li<{ $theme: ContainerProps['$theme'] }>(
     &:focus {
       background: ${$theme === 'light' ? colors.blue10 : colors.blue20};
       border: 1px solid ${colors.blue60};
+      color: ${colors.black90};
       outline: 1px solid ${colors.blue15};
     }
   `,

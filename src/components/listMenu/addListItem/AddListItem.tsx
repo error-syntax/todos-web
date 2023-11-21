@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
+import { useTheme } from '@/components/theme-provider';
 import { Input } from '@/components/ui/input';
 
 import { createList } from '../../../api';
@@ -11,6 +12,7 @@ import { Spacer } from '../../containers';
 import { AddListButton } from './AddListItem.styles';
 
 export default function AddListItem() {
+  const { theme } = useTheme();
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate } = useMutation({
@@ -54,7 +56,12 @@ export default function AddListItem() {
   }, [editing, inputRef.current]);
 
   return (
-    <AddListButton onClick={handleClick} onKeyUp={handleKeyPress} tabIndex={0}>
+    <AddListButton
+      onClick={handleClick}
+      onKeyUp={handleKeyPress}
+      $theme={theme}
+      tabIndex={0}
+    >
       {!editing ? (
         <p>
           <FontAwesomeIcon icon={faCirclePlus} />

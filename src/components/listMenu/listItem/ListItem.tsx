@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 
+import { useTheme } from '@/components/theme-provider';
 import { Input } from '@/components/ui/input';
 
 import { updateList } from '../../../api/lists.api';
@@ -20,6 +21,7 @@ import { type ListItemProps } from './ListItem.types';
 type AvailableDialogs = 'none' | 'archive' | 'delete';
 
 export default function ListItem({ list }: ListItemProps) {
+  const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const [whichDialogOpen, setWhichDialogOpen] =
@@ -77,6 +79,7 @@ export default function ListItem({ list }: ListItemProps) {
       <Wrapper
         $active={activeListSignal.value === list.id}
         $editing={editing}
+        $theme={theme}
         onClick={(e) => {
           if (!editing) {
             handleSelect(e);
