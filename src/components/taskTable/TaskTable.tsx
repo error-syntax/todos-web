@@ -1,98 +1,100 @@
-import { useQuery } from '@tanstack/react-query';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type ColumnDef } from '@tanstack/react-table';
-import { Archive, ArrowDown, ArrowUp, Pencil, Trash } from 'lucide-react';
+import { Archive, Pencil, Trash } from 'lucide-react';
+import { useState } from 'react';
 import { z } from 'zod';
 
-import { fetchTasksByListId } from '@/api/tasks.api';
+import { deleteTask, fetchTasksByListId } from '@/api/tasks.api';
+import { type Task } from '@/api/types';
 import { activeListSignal } from '@/signals/lists.signals';
 
 import { IconWrapper } from '../icon/Icon.styles';
-import { Button } from '../ui/button';
+import TaskForm from '../taskForm';
 import { Checkbox } from '../ui/checkbox';
 import { DataTable } from '../ui/data-table';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
+import { type TaskTableProps } from './TaskTable.types';
 
 const ColumnSchema = z.object({
-  content: z.string(),
+  id: z.number().optional(),
   completed: z.boolean(),
   dueDate: z.string().optional().nullable(),
   options: z.any(),
+  taskName: z.string(),
 });
 
 type TaskColumn = ColumnDef<z.infer<typeof ColumnSchema>>;
 
-export const columns: TaskColumn[] = [
-  {
-    accessorKey: 'id',
-    header: 'ID',
-  },
-  {
-    accessorKey: 'completed',
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost">
-          Done
-          {column.getIsSorted() === 'asc' ? <ArrowUp /> : <ArrowDown />}
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const isCompleted: boolean = row.getValue('completed');
+export const columns: (
+  actionHandlers: Record<string, (input: any) => void>,
+) => TaskColumn[] = (actionHandlers) => {
+  return [
+    {
+      accessorKey: 'completed',
+      header: 'Done',
+      cell: ({ row }) => {
+        const isCompleted: boolean = row.getValue('completed');
 
-      return (
-        <span className="flex">
-          <Checkbox defaultChecked={isCompleted} />
-        </span>
-      );
+        return (
+          <span className="flex">
+            <Checkbox defaultChecked={isCompleted} />
+          </span>
+        );
+      },
     },
-  },
-  {
-    accessorKey: 'content',
-    enableSorting: true,
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost">
-          Content
-          {column.getIsSorted() === 'asc' ? <ArrowUp /> : <ArrowDown />}
-        </Button>
-      );
+    {
+      accessorKey: 'taskName',
+      header: 'Name',
     },
-  },
-  {
-    accessorKey: 'dueDate',
-    enableSorting: true,
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost">
-          Due Date
-          {column.getIsSorted() === 'asc' ? <ArrowUp /> : <ArrowDown />}
-        </Button>
-      );
+    {
+      accessorKey: 'dueDate',
+      header: 'Due Date',
+      cell: ({ row }) => {
+        return row.getValue('dueDate') ?? '--';
+      },
     },
-    cell: ({ row }) => {
-      return row.getValue('dueDate') ?? '--';
+    {
+      id: 'actions',
+      cell: ({ row }) => {
+        return (
+          <span className="flex gap-4 justify-end">
+            <IconWrapper
+              onClick={() => {
+                actionHandlers.updateTask(row.original);
+              }}
+              tabIndex={0}
+            >
+              <Pencil size={14} />
+            </IconWrapper>
+            <IconWrapper tabIndex={0}>
+              <Archive size={14} />
+            </IconWrapper>
+            <IconWrapper
+              onClick={() => {
+                actionHandlers.deleteTask(`${row.original.id}`);
+              }}
+              tabIndex={0}
+            >
+              <Trash size={14} />
+            </IconWrapper>
+          </span>
+        );
+      },
     },
-  },
-  {
-    id: 'actions',
-    cell: () => {
-      return (
-        <span className="flex gap-4 justify-end">
-          <IconWrapper tabIndex={0}>
-            <Pencil size={14} />
-          </IconWrapper>
-          <IconWrapper tabIndex={0}>
-            <Archive size={14} />
-          </IconWrapper>
-          <IconWrapper tabIndex={0}>
-            <Trash size={14} />
-          </IconWrapper>
-        </span>
-      );
-    },
-  },
-];
+  ];
+};
 
-export default function TaskTable() {
+export default function TaskTable({ dialogState }: TaskTableProps) {
+  const [dialogOpen, setDialogOpen] = dialogState;
+  const [taskData, setTaskData] = useState<Task | undefined>(undefined);
+  const qClient = useQueryClient();
   const {
     data: tasks,
     error,
@@ -101,6 +103,16 @@ export default function TaskTable() {
     enabled: activeListSignal.value !== null,
     queryKey: ['list', 'tasks', activeListSignal.value?.toString()],
     queryFn: async () => await fetchTasksByListId(activeListSignal.value),
+    staleTime: 0,
+  });
+
+  const { mutate: deleteTaskMutation } = useMutation({
+    mutationFn: async (taskId: string) => await deleteTask(taskId),
+    onSuccess: () => {
+      void qClient.refetchQueries({
+        queryKey: ['list', 'tasks', activeListSignal.value?.toString()],
+      });
+    },
   });
 
   if (activeListSignal.value === null) return null;
@@ -111,5 +123,41 @@ export default function TaskTable() {
 
   if (!tasks || tasks.length === 0) return <h3>No Tasks... Creat some!</h3>;
 
-  return <DataTable columns={columns} data={tasks} />;
+  return (
+    <>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={() => {
+          setDialogOpen(false);
+        }}
+      >
+        <DialogTrigger asChild></DialogTrigger>
+        <DialogContent className="sm:max-w-[450px]">
+          <DialogHeader>
+            <DialogTitle>{taskData ? 'Update' : 'Create New'} Task</DialogTitle>
+          </DialogHeader>
+          <Separator className="my-2" />
+          <TaskForm
+            taskData={taskData}
+            handleCloseDialog={() => {
+              setDialogOpen(false);
+              setTaskData(undefined);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+      <DataTable
+        columns={columns({
+          deleteTask: (taskId: string) => {
+            deleteTaskMutation(taskId);
+          },
+          updateTask: (values: Task) => {
+            setDialogOpen(true);
+            setTaskData(values);
+          },
+        })}
+        data={tasks}
+      />
+    </>
+  );
 }
