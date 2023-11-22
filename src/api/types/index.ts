@@ -5,8 +5,12 @@ import {
 } from './list.types';
 import {
   type CreateTaskInput,
+  type CreateTaskResponse,
+  type DeleteTaskResponse,
   type Task,
+  type TaskResponse,
   type UpdateTaskInput,
+  type UpdateTaskResponse,
 } from './task.types';
 import {
   type CreateUserInput,
@@ -19,12 +23,16 @@ import { type Nullable } from './utility.types';
 export type {
   CreateListInput,
   CreateTaskInput,
+  CreateTaskResponse,
   CreateUserInput,
+  DeleteTaskResponse,
   List,
   Nullable,
   Task,
+  TaskResponse,
   UpdateListInput,
   UpdateTaskInput,
+  UpdateTaskResponse,
   User,
   UserContext,
   UserLogin,

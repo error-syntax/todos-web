@@ -1,35 +1,45 @@
 interface Task {
-  id: string;
+  id: number;
   completed: boolean;
-  content: string;
   dueDate?: string | null;
-  listId: string;
+  listId: number;
+  taskName: string;
   createdAt: string | Date;
   updatedAt: string | Date;
 }
 
-type TaskResponse = Pick<Task, 'completed' | 'content' | 'id' | 'dueDate'>;
+type TaskResponse = Pick<
+  Task,
+  'completed' | 'id' | 'dueDate' | 'listId' | 'taskName'
+>;
 
 type CreateTaskInput = Partial<
-  Pick<Task, 'completed' | 'content' | 'dueDate' | 'listId'>
+  Pick<Task, 'completed' | 'dueDate' | 'listId' | 'taskName'>
 >;
 
 type CreateTaskResponse = TaskResponse;
 
 type UpdateTaskInput = Pick<
   Task,
-  'completed' | 'content' | 'dueDate' | 'listId' | 'id'
+  'completed' | 'dueDate' | 'listId' | 'id' | 'taskName'
 >;
 
 interface UpdateTaskResponse {
-  numOfAffectedrows: number;
+  numRowsAffected: number;
   updatedTasks: TaskResponse[];
+}
+
+interface DeleteTaskResponse {
+  numRowsAffected: number;
+  deletedTaskIds: Array<{ deletedTaskId: number }>;
 }
 
 export type {
   CreateTaskInput,
   CreateTaskResponse,
+  DeleteTaskResponse,
   Task,
+  TaskResponse,
   UpdateTaskInput,
   UpdateTaskResponse,
 };
