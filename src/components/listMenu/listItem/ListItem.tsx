@@ -22,8 +22,8 @@ import { type ListItemProps } from './ListItem.types';
 type AvailableDialogs = 'none' | 'archive' | 'delete';
 
 export default function ListItem({ list }: ListItemProps) {
-  const { theme } = useTheme();
   const { toast } = useToast();
+  const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const [whichDialogOpen, setWhichDialogOpen] =
@@ -86,8 +86,8 @@ export default function ListItem({ list }: ListItemProps) {
     <li>
       <Wrapper
         $active={activeListSignal.value === list.id}
-        $editing={editing}
         $theme={theme}
+        className="bg-transparent hover:bg-slate-200 focus:bg-slate-200 dark:hover:bg-slate-800 dark:focus:bg-slate-800"
         onClick={(e) => {
           if (!editing) {
             handleSelect(e);
