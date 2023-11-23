@@ -14,13 +14,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { listsSignal } from '@/signals/lists.signals';
 
-import { type DeleteItemDialogProps } from './DeleteItemDialog.types';
+import { type DeleteListDialogProps } from './DeleteListDialog.types';
 
-export default function DeleteItemDialog({
+export default function DeleteListDialog({
   list,
   open,
   onOpenChange,
-}: DeleteItemDialogProps) {
+}: DeleteListDialogProps) {
   const { mutate: deleteMutation } = useMutation({
     mutationKey: ['delete', list.id],
     mutationFn: async () => {

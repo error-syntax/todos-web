@@ -9,13 +9,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import { type ArchiveItemDialogProps } from './ArchiveItemDialog.types';
+import { type ArchiveListDialogProps } from './ArchiveListDialog.types';
 
 export default function ArchiveItemDialog({
   list,
   open,
   onOpenChange,
-}: ArchiveItemDialogProps) {
+}: ArchiveListDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>

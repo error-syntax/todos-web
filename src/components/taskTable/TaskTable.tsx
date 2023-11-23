@@ -1,119 +1,43 @@
-import { Separator } from '@radix-ui/react-dropdown-menu';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { type ColumnDef } from '@tanstack/react-table';
-import { Archive, Pencil, Trash } from 'lucide-react';
-import { useState } from 'react';
-import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
 
-import { deleteTask, fetchTasksByListId } from '@/api/tasks.api';
-import { type Task } from '@/api/types';
+import { updateTask } from '@/api/tasks.api';
+import { type Task, type UpdateTaskInput } from '@/api/types';
+import { useFetchTasksByListId } from '@/hooks';
 import { activeListSignal } from '@/signals/lists.signals';
+import { type DIALOG_STATE } from '@/views/dashboard/Dashboard.reducer';
 
-import { IconWrapper } from '../icon/Icon.styles';
-import TaskForm from '../taskForm';
-import { Checkbox } from '../ui/checkbox';
+import TaskFormDialog from '../taskForm/dialog';
+import { Card, CardTitle } from '../ui/card';
 import { DataTable } from '../ui/data-table';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog';
+import { useToast } from '../ui/use-toast';
+import ArchiveTaskDialog from './archiveTaskDialog';
+import DeleteTaskDialog from './deleteTaskDialog';
 import { type TaskTableProps } from './TaskTable.types';
-
-const ColumnSchema = z.object({
-  id: z.number().optional(),
-  completed: z.boolean(),
-  dueDate: z.string().optional().nullable(),
-  options: z.any(),
-  taskName: z.string(),
-});
-
-type TaskColumn = ColumnDef<z.infer<typeof ColumnSchema>>;
-
-export const columns: (
-  actionHandlers: Record<string, (input: any) => void>,
-) => TaskColumn[] = (actionHandlers) => {
-  return [
-    {
-      accessorKey: 'completed',
-      header: 'Done',
-      cell: ({ row }) => {
-        const isCompleted: boolean = row.getValue('completed');
-
-        return (
-          <span className="flex">
-            <Checkbox defaultChecked={isCompleted} />
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'taskName',
-      header: 'Name',
-    },
-    {
-      accessorKey: 'dueDate',
-      header: 'Due Date',
-      cell: ({ row }) => {
-        return row.getValue('dueDate') ?? '--';
-      },
-    },
-    {
-      id: 'actions',
-      cell: ({ row }) => {
-        return (
-          <span className="flex gap-4 justify-end">
-            <IconWrapper
-              onClick={() => {
-                actionHandlers.updateTask(row.original);
-              }}
-              tabIndex={0}
-            >
-              <Pencil size={14} />
-            </IconWrapper>
-            <IconWrapper tabIndex={0}>
-              <Archive size={14} />
-            </IconWrapper>
-            <IconWrapper
-              onClick={() => {
-                actionHandlers.deleteTask(`${row.original.id}`);
-              }}
-              tabIndex={0}
-            >
-              <Trash size={14} />
-            </IconWrapper>
-          </span>
-        );
-      },
-    },
-  ];
-};
+import { columnsBuilder } from './TaskTable.utils';
 
 export default function TaskTable({ dialogState }: TaskTableProps) {
-  const [dialogOpen, setDialogOpen] = dialogState;
-  const [taskData, setTaskData] = useState<Task | undefined>(undefined);
-  const qClient = useQueryClient();
+  const [state, updater] = dialogState;
+  const { toast } = useToast();
+
   const {
     data: tasks,
     error,
     isFetching,
-  } = useQuery({
-    enabled: activeListSignal.value !== null,
-    queryKey: ['list', 'tasks', activeListSignal.value?.toString()],
-    queryFn: async () => await fetchTasksByListId(activeListSignal.value),
-    staleTime: 0,
-  });
+  } = useFetchTasksByListId(activeListSignal.value);
 
-  const { mutate: deleteTaskMutation } = useMutation({
-    mutationFn: async (taskId: string) => await deleteTask(taskId),
-    onSuccess: () => {
-      void qClient.refetchQueries({
-        queryKey: ['list', 'tasks', activeListSignal.value?.toString()],
+  const { mutate: updateTaskMutation } = useMutation({
+    mutationFn: async (input: UpdateTaskInput) => await updateTask(input),
+    onSuccess: ({ updatedTasks }) => {
+      toast({
+        title: `Successfully Updated Task(s)`,
+        description: `${updatedTasks.map((task) => task.name).join(', ')}`,
       });
     },
   });
+
+  function handleDialogClose(key: keyof Omit<DIALOG_STATE, 'task'>) {
+    updater({ type: 'TOGGLE_DIALOG', payload: { key, data: undefined } });
+  }
 
   if (activeListSignal.value === null) return null;
 
@@ -121,43 +45,71 @@ export default function TaskTable({ dialogState }: TaskTableProps) {
 
   if (isFetching) return <h3>Loading...</h3>;
 
-  if (!tasks || tasks.length === 0) return <h3>No Tasks... Creat some!</h3>;
-
   return (
     <>
-      <Dialog
-        open={dialogOpen}
-        onOpenChange={() => {
-          setDialogOpen(false);
-        }}
-      >
-        <DialogTrigger asChild></DialogTrigger>
-        <DialogContent className="sm:max-w-[450px]">
-          <DialogHeader>
-            <DialogTitle>{taskData ? 'Update' : 'Create New'} Task</DialogTitle>
-          </DialogHeader>
-          <Separator className="my-2" />
-          <TaskForm
-            taskData={taskData}
-            handleCloseDialog={() => {
-              setDialogOpen(false);
-              setTaskData(undefined);
+      {state.task && (
+        <>
+          <ArchiveTaskDialog
+            handleClose={() => {
+              handleDialogClose('archiveTaskOpen');
             }}
+            open={state.archiveTaskOpen}
+            task={state.task}
           />
-        </DialogContent>
-      </Dialog>
-      <DataTable
-        columns={columns({
-          deleteTask: (taskId: string) => {
-            deleteTaskMutation(taskId);
-          },
-          updateTask: (values: Task) => {
-            setDialogOpen(true);
-            setTaskData(values);
-          },
-        })}
-        data={tasks}
+          <DeleteTaskDialog
+            handleClose={() => {
+              handleDialogClose('deleteTaskOpen');
+            }}
+            open={state.deleteTaskOpen}
+            task={state.task}
+          />
+        </>
+      )}
+      <TaskFormDialog
+        open={state.taskFormOpen}
+        handleClose={() => {
+          handleDialogClose('taskFormOpen');
+        }}
+        task={state.task}
       />
+      {!tasks || tasks.length === 0 ? (
+        <Card className="flex p-4 h-[300px] items-center justify-center shadow-lg">
+          <CardTitle className="grow-0 text-slate-600">
+            No Tasks... Creat some!
+          </CardTitle>
+        </Card>
+      ) : (
+        <DataTable
+          className="shadow-lg"
+          columns={columnsBuilder({
+            archiveTask: (values: Task) => {
+              updater({
+                type: 'TOGGLE_DIALOG',
+                payload: { key: 'archiveTaskOpen', data: values },
+              });
+            },
+            completeTask: (input) => {
+              updateTaskMutation({
+                id: input.id,
+                completed: input.completed,
+              });
+            },
+            deleteTask: (values: Task) => {
+              updater({
+                type: 'TOGGLE_DIALOG',
+                payload: { key: 'deleteTaskOpen', data: values },
+              });
+            },
+            updateTask: (values: Task) => {
+              updater({
+                type: 'TOGGLE_DIALOG',
+                payload: { key: 'taskFormOpen', data: values },
+              });
+            },
+          })}
+          data={tasks}
+        />
+      )}
     </>
   );
 }

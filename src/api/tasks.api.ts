@@ -28,6 +28,23 @@ export const fetchTasksByListId = async (listId: number | null) => {
   return response;
 };
 
+export const archiveTask = async (taskId: number) => {
+  const response = await axios
+    .put<UpdateTaskResponse>(
+      `${import.meta.env.VITE_API_URL}/tasks/${taskId}/archive`,
+      null,
+      {
+        withCredentials: true,
+      },
+    )
+    .then((res) => res.data)
+    .catch((err) => {
+      throw new Error(err);
+    });
+
+  return response;
+};
+
 export const createTask = async (input: CreateTaskInput) => {
   const response = await axios
     .post<CreateTaskResponse[]>(
@@ -37,7 +54,7 @@ export const createTask = async (input: CreateTaskInput) => {
         withCredentials: true,
       },
     )
-    .then((res) => res)
+    .then((res) => res.data)
     .catch((err) => {
       throw new Error(err);
     });
@@ -45,7 +62,7 @@ export const createTask = async (input: CreateTaskInput) => {
   return response;
 };
 
-export const deleteTask = async (listId: string) => {
+export const deleteTask = async (listId: number) => {
   const response = await axios
     .delete<DeleteTaskResponse>(
       `${import.meta.env.VITE_API_URL}/tasks/${listId}`,
@@ -68,6 +85,7 @@ export const updateTask = async (input: UpdateTaskInput) => {
         withCredentials: true,
       },
     )
+    .then((res) => res.data)
     .catch((err) => {
       throw new Error(err);
     });

@@ -1,7 +1,7 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import { useState } from 'react';
+import { useReducer } from 'react';
 
 import TaskTable from '@/components/taskTable';
 import { useTheme } from '@/components/theme-provider';
@@ -10,12 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Column, Row, Spacer } from '../../components/containers';
 import ListMenu from '../../components/listMenu';
 import { activeListData, activeListSignal } from '../../signals/lists.signals';
+import { dialogReducer, INITIAL_DIALOG_STATE } from './Dashboard.reducer';
 import { DashboardWrapper } from './Dashboard.styles';
 import SideNav from './sideNav';
 
 export default function Dashboard() {
   const theme = useTheme();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [state, updater] = useReducer(dialogReducer, INITIAL_DIALOG_STATE);
 
   return (
     <DashboardWrapper $theme={theme.theme}>
@@ -28,7 +29,12 @@ export default function Dashboard() {
             {activeListSignal.value && (
               <Button
                 onClick={() => {
-                  setDialogOpen(true);
+                  updater({
+                    type: 'TOGGLE_DIALOG',
+                    payload: {
+                      key: 'taskFormOpen',
+                    },
+                  });
                 }}
               >
                 <FontAwesomeIcon icon={faPlus} size="lg" />
@@ -38,7 +44,7 @@ export default function Dashboard() {
             )}
           </Row>
           <Separator className="my-4" />
-          <TaskTable dialogState={[dialogOpen, setDialogOpen]} />
+          <TaskTable dialogState={[state, updater]} />
         </Column>
       </Column>
     </DashboardWrapper>

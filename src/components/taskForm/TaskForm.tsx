@@ -40,9 +40,7 @@ import { useToast } from '../ui/use-toast';
 const NewTaskSchema = z.object({
   dueDate: z.date().optional(),
   listId: z.string(),
-  taskName: z
-    .string({ required_error: 'Please give your task a name.' })
-    .max(250),
+  name: z.string({ required_error: 'Please give your task a name.' }).max(250),
 });
 
 export default function TaskForm({
@@ -58,7 +56,7 @@ export default function TaskForm({
     resolver: zodResolver(NewTaskSchema),
     defaultValues: {
       listId: taskData?.listId.toString(),
-      taskName: taskData?.taskName,
+      name: taskData?.name,
       dueDate: taskData?.dueDate ? new Date(taskData?.dueDate) : undefined,
     },
   });
@@ -71,30 +69,30 @@ export default function TaskForm({
     if ('numRowsAffected' in data) {
       toast({
         title: 'Successfully Updated Task',
-        description: `Updated "${data.updatedTasks[0].taskName}"`,
+        description: `Updated "${data.updatedTasks[0].name}"`,
         type: 'foreground',
       });
     } else {
       toast({
         title: 'Successfully Created Task',
-        description: `Added "${data.taskName}" to "${data.listName}"`,
+        description: `Added "${data.name}" to "${data.listName}"`,
         type: 'foreground',
       });
     }
     handleCloseDialog();
     void qClient.refetchQueries({
-      queryKey: ['list', 'tasks', activeListSignal.value?.toString()],
+      queryKey: ['list', 'tasks', activeListSignal.value],
     });
   }
 
   const { mutate: createTaskMutation } = useMutation({
     mutationFn: async () => {
-      const { dueDate, listId, taskName } = form.getValues();
+      const { dueDate, listId, name } = form.getValues();
 
       const { data } = await createTask({
         dueDate: dueDate?.toDateString(),
         listId: Number(listId),
-        taskName,
+        name,
       });
 
       return {
@@ -109,21 +107,17 @@ export default function TaskForm({
 
   const { mutate: updateTaskMutation } = useMutation({
     mutationFn: async () => {
-      const { dueDate, listId, taskName } = form.getValues();
+      const { dueDate, listId, name } = form.getValues();
 
-      const { data } = await updateTask({
+      const data = await updateTask({
         id: taskData!.id,
         completed: taskData!.completed,
         dueDate: dueDate?.toDateString(),
         listId: Number(listId),
-        taskName,
+        name,
       });
 
-      console.log(data);
-
-      return {
-        ...data,
-      };
+      return data;
     },
     onSuccess: handleSuccess,
   });
@@ -144,7 +138,7 @@ export default function TaskForm({
       >
         <FormField
           control={form.control}
-          name="taskName"
+          name="name"
           render={function ({ field }) {
             return (
               <FormItem className="flex flex-col">

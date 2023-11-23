@@ -47,6 +47,13 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof SIGNUP_SCHEMA>>({
     resolver: zodResolver(SIGNUP_SCHEMA),
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      passwordConfirm: '',
+    },
   });
 
   const { mutate } = useMutation({

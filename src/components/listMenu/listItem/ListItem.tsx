@@ -9,11 +9,12 @@ import {
 
 import { useTheme } from '@/components/theme-provider';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 import { updateList } from '../../../api/lists.api';
 import { activeListSignal, listsSignal } from '../../../signals/lists.signals';
-import ArchiveItemDialog from '../archiveItemDialog';
-import DeleteItemDialog from '../deleteItemDialog';
+import ArchiveListDialog from '../archiveListDialog';
+import DeleteListDialog from '../deleteListDialog';
 import DropdownMenu from '../dropdownMenu';
 import { Wrapper } from './ListItem.styles';
 import { type ListItemProps } from './ListItem.types';
@@ -22,6 +23,7 @@ type AvailableDialogs = 'none' | 'archive' | 'delete';
 
 export default function ListItem({ list }: ListItemProps) {
   const { theme } = useTheme();
+  const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const [whichDialogOpen, setWhichDialogOpen] =
@@ -66,7 +68,13 @@ export default function ListItem({ list }: ListItemProps) {
     }
 
     if (e.key === 'Enter') {
-      updateMutation(e.currentTarget.value);
+      if (e.currentTarget.value === '') {
+        toast({
+          title: "Task Names can't be empty. Please provide a name.",
+        });
+      } else {
+        updateMutation(e.currentTarget.value);
+      }
     }
   };
 
@@ -101,14 +109,14 @@ export default function ListItem({ list }: ListItemProps) {
                 setEditing(true);
               }}
             />
-            <DeleteItemDialog
+            <DeleteListDialog
               list={list}
               open={whichDialogOpen === 'delete'}
               onOpenChange={() => {
                 setWhichDialogOpen('none');
               }}
             />
-            <ArchiveItemDialog
+            <ArchiveListDialog
               list={list}
               open={whichDialogOpen === 'archive'}
               onOpenChange={() => {
