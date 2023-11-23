@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
 import { useArchiveTask } from '@/hooks';
 
 import { type ArchiveTaskDialogProps } from './ArchiveTaskDialog.types';
@@ -25,15 +24,13 @@ export default function DeleteTaskDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger asChild></DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
-        <DialogHeader>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <Separator />
+        <DialogHeader className="mb-4">
+          <DialogTitle className="mb-8">Are you sure?</DialogTitle>
           <DialogDescription>
             This will archive your task meaning it won&apos;t be shown in your
             Tasks List and won&apos;t count towards your Task statistics.
           </DialogDescription>
         </DialogHeader>
-        <Separator />
         <DialogFooter className="flex justify-end">
           <Button variant="secondary" onClick={handleClose}>
             Cancel
@@ -41,6 +38,7 @@ export default function DeleteTaskDialog({
           <Button
             onClick={() => {
               archiveTaskMutation(task.id);
+              handleClose();
             }}
             variant="default"
           >

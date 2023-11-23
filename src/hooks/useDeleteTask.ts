@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask } from '@/api/tasks.api';
 import { type DeleteTaskResponse } from '@/api/types';
 import { useToast } from '@/components/ui/use-toast';
+import { activeListSignal } from '@/signals/lists.signals';
 
 export default function useDeleteTask(
   handleError?: (err: unknown) => void,
@@ -23,7 +24,7 @@ export default function useDeleteTask(
           description: `Task with id ${res.deletedTaskIds[0].id} has been deleted.`,
         });
         void qClient.refetchQueries({
-          queryKey: ['list', 'tasks', res.deletedTaskIds[0].id],
+          queryKey: ['list', 'tasks', activeListSignal.value],
         });
       },
     onError:

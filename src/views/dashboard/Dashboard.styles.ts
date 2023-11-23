@@ -5,8 +5,6 @@ import { Column, PageWrapper } from '../../components/containers';
 
 export const DashboardWrapper = styled(PageWrapper)(
   ({ $theme }) => `
-  background-color: ${$theme === 'light' ? colors.white : colors.black};
-
   & ${Column}:first-of-type {
     border-right: 1px solid ${
       $theme === 'light' ? colors.white80 : colors.black80
