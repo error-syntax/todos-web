@@ -19,7 +19,7 @@ const columnsBuilder: (
           <span className="flex">
             <Checkbox
               onCheckedChange={(checked) => {
-                actionHandlers.updateTask({
+                actionHandlers.completeTask({
                   id: row.original.id,
                   completed: checked,
                 });

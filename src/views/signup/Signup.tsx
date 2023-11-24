@@ -27,7 +27,7 @@ export default function Signup(): JSX.Element {
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           className={cn(
-            buttonVariants({ variant: 'ghost' }),
+            buttonVariants({ variant: 'outline' }),
             'absolute right-4 top-4 md:right-8 md:top-8',
           )}
           to="/login"
@@ -36,7 +36,10 @@ export default function Signup(): JSX.Element {
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
-          <div className="relative z-20 flex items-center text-lg font-medium">
+          <Link
+            className="relative z-20 flex items-center text-lg font-medium"
+            to="/"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -50,7 +53,7 @@ export default function Signup(): JSX.Element {
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
             Todone
-          </div>
+          </Link>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
